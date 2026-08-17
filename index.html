@@ -7,1617 +7,515 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <style>
         :root {
-            --skc-navy: #0C2340;
-            --skc-navy-dark: #071628;
-            --skc-blue: #A7C6ED;
-            --skc-blue-mid: #7AADD8;
-            --skc-gold: #F5A800;
-            --skc-light: #EBF4FA;
-            --skc-border: #CBD5E1;
-            --skc-bg: #F2F5F8;
-            --skc-white: #FFFFFF;
-            --skc-text: #1F2937;
-            --skc-muted: #6B7280;
-            --skc-good: #16A34A;
-            --skc-warn: #D97706;
-            --skc-bad: #DC2626;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--skc-bg);
-            color: var(--skc-text);
-            line-height: 1.6;
-        }
-
-        /* Header */
-        .header {
-            position: sticky;
-            top: 0;
-            background: linear-gradient(135deg, var(--skc-navy-dark) 0%, var(--skc-navy) 100%);
-            border-bottom: 3px solid var(--skc-gold);
-            color: var(--skc-white);
-            padding: 20px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-logo {
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
-        }
-
-        .header-text h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .header-text p {
-            font-size: 13px;
-            color: var(--skc-blue);
-            opacity: 0.95;
-        }
-
-        .header-right {
-            text-align: right;
-            font-size: 13px;
-        }
-
-        .header-right p {
-            margin: 2px 0;
-            color: var(--skc-light);
-        }
-
-        .header-right strong {
-            display: block;
-            margin-top: 4px;
-            font-weight: 600;
-        }
-
-        /* Controls Bar */
-        .controls-bar {
-            position: sticky;
-            top: 63px;
-            background: var(--skc-white);
-            border-bottom: 1px solid var(--skc-border);
-            padding: 16px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 99;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-        }
-
-        .month-nav {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .month-nav button {
-            background: var(--skc-white);
-            border: 1px solid var(--skc-border);
-            color: var(--skc-navy);
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .month-nav button:hover:not(:disabled) {
-            background: var(--skc-light);
-            border-color: var(--skc-blue-mid);
-        }
-
-        .month-nav button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .month-display {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--skc-navy);
-            min-width: 180px;
-            text-align: center;
-        }
-
-        .data-note {
-            font-size: 13px;
-            color: var(--skc-muted);
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px;
-        }
-
-        .section {
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--skc-navy);
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* YTD Strip */
-        .ytd-strip {
-            background: linear-gradient(135deg, var(--skc-navy-dark) 0%, var(--skc-navy) 100%);
-            color: var(--skc-white);
-            padding: 16px 20px;
-            border-radius: 6px;
-            font-size: 13px;
-            margin-bottom: 32px;
-            border-left: 4px solid var(--skc-gold);
-        }
-
-        /* KPI Tiles */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .kpi-tile {
-            background: var(--skc-white);
-            border: 1px solid var(--skc-border);
-            border-radius: 8px;
-            padding: 16px;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        .kpi-tile:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            border-color: var(--skc-blue-mid);
-        }
-
-        .kpi-label {
-            font-size: 12px;
-            color: var(--skc-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .kpi-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--skc-navy);
-            margin-bottom: 4px;
-        }
-
-        .kpi-value.blue {
-            color: var(--skc-blue-mid);
-        }
-
-        .kpi-value.gold {
-            color: var(--skc-gold);
-        }
-
-        .kpi-value.green {
-            color: var(--skc-good);
-        }
-
-        .kpi-value.red {
-            color: var(--skc-bad);
-        }
-
-        .kpi-secondary {
-            font-size: 11px;
-            color: var(--skc-muted);
-        }
-
-        /* Status Pill */
-        .status-pill {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 8px;
-        }
-
-        .status-pill.improving {
-            background: rgba(22, 163, 74, 0.1);
-            color: var(--skc-good);
-        }
-
-        .status-pill.mixed {
-            background: rgba(217, 119, 6, 0.1);
-            color: var(--skc-warn);
-        }
-
-        .status-pill.attention {
-            background: rgba(220, 38, 38, 0.1);
-            color: var(--skc-bad);
-        }
-
-        /* Card */
-        .card {
-            background: var(--skc-white);
-            border: 1px solid var(--skc-border);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--skc-border);
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--skc-navy);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            background: var(--skc-light);
-            border: 1px solid var(--skc-blue-mid);
-            color: var(--skc-navy);
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        /* Table */
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        thead {
-            background: var(--skc-light);
-            border-top: 1px solid var(--skc-border);
-            border-bottom: 1px solid var(--skc-border);
-        }
-
-        th {
-            padding: 12px 8px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--skc-navy);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        td {
-            padding: 12px 8px;
-            border-bottom: 1px solid var(--skc-border);
-        }
-
-        tbody tr:hover {
-            background: var(--skc-bg);
-        }
-
-        tbody tr.row-good {
-            border-left: 3px solid var(--skc-good);
-        }
-
-        tbody tr.row-warn {
-            border-left: 3px solid var(--skc-warn);
-        }
-
-        tbody tr.row-bad {
-            border-left: 3px solid var(--skc-bad);
-        }
-
-        /* Audience Cards */
-        .audience-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-
-        .audience-card {
-            background: var(--skc-white);
-            border: 1px solid var(--skc-border);
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .audience-icon {
-            font-size: 40px;
-            margin-bottom: 12px;
-        }
-
-        .audience-card h3 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--skc-navy);
-            margin-bottom: 8px;
-        }
-
-        .audience-card p {
-            font-size: 13px;
-            color: var(--skc-muted);
-            margin-bottom: 8px;
-        }
-
-        .audience-card .label {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--skc-gold);
-            text-transform: uppercase;
-            margin-top: 8px;
-        }
-
-        /* Insights Card */
-        .insights-card {
-            background: linear-gradient(135deg, var(--skc-navy-dark) 0%, var(--skc-navy) 100%);
-            border: 1px solid var(--skc-border);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-            color: var(--skc-white);
-        }
-
-        .insights-card .section-title {
-            color: var(--skc-gold);
-        }
-
-        .insight-item {
-            margin-bottom: 16px;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .insight-item.priority::before {
-            content: '★';
-            position: absolute;
-            left: 0;
-            color: var(--skc-gold);
-            font-size: 16px;
-        }
-
-        .insight-item:not(.priority)::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--skc-blue);
-        }
-
-        .insight-item strong {
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 700;
-        }
-
-        .insight-item p {
-            font-size: 13px;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.9);
-        }
-
-        /* Next Steps Card */
-        .next-steps-card {
-            background: var(--skc-white);
-            border: 1px solid var(--skc-border);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-            border-left: 4px solid var(--skc-blue-mid);
-        }
-
-        .next-steps-card .section-title {
-            color: var(--skc-navy);
-        }
-
-        .next-steps-list {
-            list-style: none;
-            counter-reset: step-counter;
-        }
-
-        .next-steps-list li {
-            counter-increment: step-counter;
-            margin-bottom: 12px;
-            padding-left: 28px;
-            position: relative;
-            font-size: 13px;
-            color: var(--skc-text);
-            line-height: 1.6;
-        }
-
-        .next-steps-list li::before {
-            content: counter(step-counter);
-            position: absolute;
-            left: 0;
-            width: 24px;
-            height: 24px;
-            background: var(--skc-blue-mid);
-            color: var(--skc-white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        /* Creatives Section */
-        .creatives-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-
-        .creatives-header h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--skc-navy);
-        }
-
-        .btn-add {
-            background: var(--skc-gold);
-            color: var(--skc-navy);
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-
-        .btn-add:hover {
-            background: #F9B233;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 168, 0, 0.3);
-        }
-
-        .ads-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
-        .ad-card {
-            background: var(--skc-white);
-            border: 1px solid var(--skc-border);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.2s;
-        }
-
-        .ad-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-
-        .ad-image {
-            width: 100%;
-            height: 140px;
-            background: var(--skc-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--skc-muted);
-            font-size: 12px;
-            overflow: hidden;
-        }
-
-        .ad-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .ad-info {
-            padding: 12px;
-        }
-
-        .ad-name {
-            font-weight: 700;
-            color: var(--skc-navy);
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-
-        .ad-metric {
-            font-size: 11px;
-            color: var(--skc-muted);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--skc-white);
-            border-radius: 8px;
-            padding: 24px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--skc-muted);
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            color: var(--skc-navy);
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--skc-navy);
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--skc-navy);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--skc-border);
-            border-radius: 6px;
-            font-size: 13px;
-            font-family: inherit;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--skc-blue-mid);
-            box-shadow: 0 0 0 3px rgba(167, 198, 237, 0.1);
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: var(--skc-navy);
-            color: var(--skc-white);
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-
-        .btn-submit:hover {
-            background: var(--skc-navy-dark);
-            transform: translateY(-2px);
-        }
-
-        /* Placeholder */
-        .placeholder-card {
-            background: var(--skc-white);
-            border: 2px dashed var(--skc-border);
-            border-radius: 8px;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .placeholder-card p {
-            color: var(--skc-muted);
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .placeholder-card .label {
-            font-size: 12px;
-            color: var(--skc-gold);
-            font-weight: 600;
-        }
-
-        /* Warning Banner */
-        .warning-banner {
-            background: rgba(217, 119, 6, 0.1);
-            border: 1px solid var(--skc-warn);
-            border-radius: 6px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            color: var(--skc-warn);
-            font-size: 13px;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .warning-banner::before {
-            content: '⚠️';
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        /* Chart Container */
-        .chart-container {
-            position: relative;
-            height: 400px;
-            margin-top: 20px;
-        }
-
-        /* Utility */
-        .text-center {
-            text-align: center;
-        }
-
-        .mt-20 {
-            margin-top: 20px;
-        }
-
-        .text-muted {
-            color: var(--skc-muted);
-            font-size: 13px;
-        }
-
-        .strategy-note {
-            background: var(--skc-light);
-            border: 1px solid var(--skc-border);
-            border-radius: 6px;
-            padding: 12px;
-            margin-top: 16px;
-            font-size: 12px;
-            color: var(--skc-text);
-            line-height: 1.6;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                padding: 16px 20px;
-            }
-
-            .controls-bar {
-                padding: 12px 20px;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            .kpi-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .audience-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .month-nav {
-                gap: 8px;
-            }
-
-            .month-display {
-                min-width: auto;
-                font-size: 14px;
-            }
-
-            table {
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 8px 4px;
-            }
+            --skc-navy: #0C2340; --skc-navy-dark: #071628; --skc-blue: #A7C6ED;
+            --skc-blue-mid: #7AADD8; --skc-gold: #F5A800; --skc-light: #EBF4FA;
+            --skc-border: #CBD5E1; --skc-bg: #F2F5F8; --skc-white: #FFFFFF;
+            --skc-text: #1F2937; --skc-muted: #6B7280;
+            --skc-good: #16A34A; --skc-warn: #D97706; --skc-bad: #DC2626;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--skc-bg); color:var(--skc-text); line-height:1.6; }
+        .header { position:sticky; top:0; background:linear-gradient(135deg,var(--skc-navy-dark) 0%,var(--skc-navy) 100%); border-bottom:3px solid var(--skc-gold); color:#fff; padding:16px 40px; display:flex; align-items:center; justify-content:space-between; z-index:100; box-shadow:0 2px 4px rgba(0,0,0,.1); }
+        .header-left { display:flex; align-items:center; gap:16px; }
+        .header-logo { height:56px; width:auto; object-fit:contain; }
+        .header-text h1 { font-size:22px; font-weight:700; margin-bottom:2px; }
+        .header-text p { font-size:13px; color:var(--skc-blue); opacity:.95; }
+        .header-right { text-align:right; font-size:13px; color:var(--skc-light); }
+        .header-right strong { display:block; font-weight:600; }
+        .controls-bar { position:sticky; top:89px; background:var(--skc-white); border-bottom:1px solid var(--skc-border); padding:12px 40px; display:flex; align-items:center; justify-content:space-between; z-index:99; }
+        .month-nav { display:flex; align-items:center; gap:12px; }
+        .month-nav button { background:var(--skc-white); border:1px solid var(--skc-border); color:var(--skc-navy); padding:7px 14px; cursor:pointer; border-radius:4px; font-size:14px; font-weight:600; transition:all .2s; }
+        .month-nav button:hover:not(:disabled) { background:var(--skc-light); border-color:var(--skc-blue-mid); }
+        .month-nav button:disabled { opacity:.4; cursor:not-allowed; }
+        .month-display { font-size:16px; font-weight:700; color:var(--skc-navy); min-width:200px; text-align:center; }
+        .data-note { font-size:12px; color:var(--skc-muted); }
+        .container { max-width:1400px; margin:0 auto; padding:32px 40px; }
+        .section { margin-bottom:36px; }
+        .section-title { font-size:16px; font-weight:700; color:var(--skc-navy); margin-bottom:14px; text-transform:uppercase; letter-spacing:.5px; }
+        .ytd-strip { background:linear-gradient(135deg,var(--skc-navy-dark),var(--skc-navy)); color:#fff; padding:14px 20px; border-radius:6px; font-size:13px; border-left:4px solid var(--skc-gold); }
+        .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:14px; }
+        .kpi-tile { background:var(--skc-white); border:1px solid var(--skc-border); border-radius:8px; padding:14px; text-align:center; }
+        .kpi-tile:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); border-color:var(--skc-blue-mid); }
+        .kpi-label { font-size:11px; color:var(--skc-muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; font-weight:600; }
+        .kpi-value { font-size:22px; font-weight:700; color:var(--skc-navy); }
+        .kpi-value.blue { color:var(--skc-blue-mid); }
+        .kpi-value.gold { color:var(--skc-gold); }
+        .kpi-value.green { color:var(--skc-good); }
+        .kpi-secondary { font-size:11px; color:var(--skc-muted); margin-top:2px; }
+        .card { background:var(--skc-white); border:1px solid var(--skc-border); border-radius:8px; padding:20px; margin-bottom:16px; }
+        .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--skc-border); }
+        .card-title { font-size:15px; font-weight:700; color:var(--skc-navy); }
+        .badge { display:inline-block; padding:3px 8px; background:var(--skc-light); border:1px solid var(--skc-blue-mid); color:var(--skc-navy); border-radius:4px; font-size:11px; font-weight:600; }
+        .status-badge { display:inline-block; padding:3px 8px; border-radius:20px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+        .status-badge.best-value { background:rgba(22,163,74,.1); color:#16A34A; }
+        .status-badge.top-volume { background:rgba(22,163,74,.1); color:#16A34A; }
+        .status-badge.strong { background:rgba(59,130,246,.1); color:#3B82F6; }
+        .status-badge.high-ctr { background:rgba(59,130,246,.1); color:#3B82F6; }
+        .status-badge.high-efficiency { background:rgba(16,185,129,.1); color:#10B981; }
+        .status-badge.optimizing { background:rgba(245,168,0,.1); color:#D97706; }
+        .status-badge.paused { background:rgba(107,114,128,.1); color:#6B7280; }
+        table { width:100%; border-collapse:collapse; font-size:13px; }
+        thead { background:var(--skc-light); }
+        th { padding:10px 8px; text-align:left; font-weight:600; color:var(--skc-navy); font-size:11px; text-transform:uppercase; letter-spacing:.5px; }
+        td { padding:10px 8px; border-bottom:1px solid var(--skc-border); }
+        tbody tr:hover { background:var(--skc-bg); }
+        .mom-wrapper { overflow-x:auto; }
+        .mom-table { margin-bottom:20px; }
+        .mom-table th, .mom-table td { min-width:90px; white-space:nowrap; }
+        .campaign-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+        .campaign-card { background:var(--skc-white); border:1px solid var(--skc-border); border-radius:8px; padding:16px; transition:all .2s; }
+        .campaign-card:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
+        .campaign-card.paused { opacity:.7; }
+        .campaign-name { font-size:14px; font-weight:700; color:var(--skc-navy); margin-bottom:8px; }
+        .campaign-kpis { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:10px; }
+        .ckpi { text-align:center; padding:6px; background:var(--skc-bg); border-radius:6px; }
+        .ckpi-val { font-size:16px; font-weight:700; color:var(--skc-navy); }
+        .ckpi-label { font-size:9px; color:var(--skc-muted); text-transform:uppercase; }
+        .campaign-footer { display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11px; color:var(--skc-muted); }
+        .chart-container { position:relative; height:280px; }
+        .insights-card { background:linear-gradient(135deg,var(--skc-navy-dark),var(--skc-navy)); border-radius:8px; padding:20px; color:#fff; }
+        .insights-card .section-title { color:var(--skc-gold); }
+        .insight-item { margin-bottom:12px; padding-left:18px; position:relative; font-size:13px; color:rgba(255,255,255,.9); }
+        .insight-item::before { content:'✓'; position:absolute; left:0; color:var(--skc-gold); font-weight:700; }
+        .ga4-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+        .ga4-panel { background:var(--skc-light); border:1px solid var(--skc-border); border-radius:8px; padding:14px; }
+        .ga4-panel.current { border-left:4px solid var(--skc-gold); }
+        .ga4-panel-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--skc-muted); margin-bottom:10px; }
+        .ga4-kpis { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .ga4-bar-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+        .ga4-bar-label { width:110px; font-size:11px; color:var(--skc-muted); }
+        .ga4-bar-bg { flex:1; background:var(--skc-border); border-radius:99px; height:8px; overflow:hidden; }
+        .ga4-bar-fill { height:100%; border-radius:99px; }
+        .ga4-bar-pct { width:36px; text-align:right; font-size:12px; font-weight:700; }
+        @media (max-width:768px) {
+            .header { padding:12px 16px; }
+            .container { padding:16px; }
+            .ga4-grid { grid-template-columns:1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
+    <header class="header">
         <div class="header-left">
-            <img class="header-logo" src="data:image/jpeg;base64,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rojHK3f2hw7QeYWqrqvtkpL5SdRWNw4fk5W+lGe0fhzVSXq0VdmrHU1YzHOORvoyN7R+C9FhZschalxIqcjGlVyujQREXccoREQBERAEREAREQBERAERFIC6+mrDUX6sMceY6ePBmmxuaOwd5WGxWiovVeylpxhvGWTGRG3tVwWu3U1qoo6SjZsxM97j2nvVbn5qoj4x/kzsxcf3HuXR90FFT26kjpaSMRxRjAA59571scU5HhuUC1tq4gyWy1SYI82edh4drWn5lUVNNmTZpf7ZZ22wph+jNq/WQptqhs8jXTZLZagbwztDe/5Ku3FznFznFzjvLnHJPiV8gADAGO4L1enx8aFEdRKW66VstsIiLeagiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiID7glkp5mTQSOjlYcte04IKs7SGrY7swUlwcyOubuBG5s3h39yq5etcWuDmEtc05BBwQVzZOLDIjp9m6i6VT46L7WherTS3mhfS1bdx3tePSYe0KP6M1YLiG0FyeG1gH1cvKcftfNS87ty8zZXZj2afaLqE4XQKSvdpqbNXupatvfHIB5sje0f73LQV1X+y018oTTVHmuG+OUDfG7t/FU9caGottbLSVbNiWI4I5EciO0FehwsxZEdP+SKjJx3U9ro1kRF3HMEREAREQBERAEREAWajppq2rhpaZhfNM7Za0dv/AGWA7hlWloPTotlJ5dVR4rahu4Eb4mHl4nmubLyVj1+Xz8G6il2y18HX05ZYLHbWU0eHyu86aXm93d2DsXUTmoxrbUgs9KaSlcPLpm7jn8m0/a8exeYjGzJt47ZdScKYb+jn661T5OH2q3P+uc3E8zT6AP2R3/JV18l64lznOcSXEkknmea8XqcbHjRDxRSXXStlthERbzUEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREUg9a5zXBzHFpG8EHBGOByrS0Xqht5i8krS1tdGOJwOub2+I5qrFkp5paeZk9PI6OWM7TXt4tK5crGjfDT7+DdRfKqWy+CuBq/Tzb5QZhDWVkO+J3rD1D3H5/HJpS/wAV+odvzWVUWGzR558iO44Xb9i8wnZj2fTRdajdD9MoR7XRucx7S17XFrmniCDgjxXisLpE09tsdeKNnnj/AM00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" alt="Argyle Events" style="height:56px;width:auto;object-fit:contain;background:transparent;" />
+            <img class="header-logo" src="data:image/png;base64,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" alt="Sporting KC / Argyle Events" />
             <div class="header-text">
                 <h1>Argyle Events</h1>
-                <p>Campaign Performance Dashboard</p>
+                <p>Google Ads & Meta — Campaign Performance Dashboard · 2026</p>
             </div>
         </div>
         <div class="header-right">
-            <p>2026 · Prepared by Kazoo Media</p>
-            <strong id="generatedDate">—</strong>
+            <strong>Prepared by Kazoo Media</strong>
+            <span id="generatedDate"></span>
         </div>
-    </div>
+    </header>
 
-    <!-- Controls Bar -->
     <div class="controls-bar">
         <div class="month-nav">
-            <button id="prevMonth">&larr;</button>
-            <div class="month-display" id="monthDisplay">—</div>
-            <button id="nextMonth">&rarr;</button>
+            <button id="btnPrev">← Previous</button>
+            <div class="month-display" id="monthDisplay">August 2026 (1–17)</div>
+            <button id="btnNext">Next →</button>
         </div>
-        <div class="data-note" id="dataNote">—</div>
+        <div class="data-note" id="dataNote">Data through August 17, 2026</div>
     </div>
 
-    <!-- Main Content -->
     <div class="container">
         <!-- YTD Strip -->
-        <div class="ytd-strip">
-            YTD Mar–Jul 31: 99,109 impr · 1,684 clicks · $1,900 spend · 49.84 conversions · $41.54 avg CPA
-        </div>
-
-        <!-- Section 1: Campaign Performance -->
         <div class="section">
-            <div class="kpi-grid" id="campaignKPIs">
-                <!-- Dynamically populated -->
-            </div>
+            <div class="section-title">Year-to-Date Summary</div>
+            <div id="ytdStrip" class="ytd-strip"></div>
         </div>
 
-        <!-- Section 2: Google Ads Deep Dive -->
+        <!-- KPI Strip -->
         <div class="section">
-            <div class="card" id="googleAdsCard">
-                <!-- Dynamically populated -->
-            </div>
+            <div class="section-title">Portfolio KPI Strip (Google Ads)</div>
+            <div class="kpi-grid" id="kpiStrip"></div>
         </div>
 
-        <!-- Section 3: Asset Group Breakdown -->
+        <!-- Asset Group Cards -->
         <div class="section">
-            <div class="section-title">Asset Group Breakdown</div>
-            <div class="table-wrapper">
-                <table id="assetGroupTable">
-                    <!-- Dynamically populated -->
-                </table>
-            </div>
+            <div class="section-title">Asset Group Deep-Dive</div>
+            <div class="campaign-grid" id="campaignGrid"></div>
         </div>
 
-        <!-- Section 4: Meta / Facebook -->
-        <div class="section" id="metaSection">
-            <!-- Dynamically populated -->
-        </div>
-
-        <!-- Section 5: Audience & Targeting -->
+        <!-- Portfolio Ranking -->
         <div class="section">
-            <div class="section-title">Audience & Targeting</div>
-            <div class="audience-grid">
-                <div class="audience-card">
-                    <div class="audience-icon">🏟️</div>
-                    <h3>World Cup Event Space</h3>
-                    <p>Targeting high-intent event planners searching for large-scale venue spaces and world-class event experiences.</p>
-                    <div class="label">Search Themes: Venue, Events, Conferences</div>
-                </div>
-                <div class="audience-card">
-                    <div class="audience-icon">🏢</div>
-                    <h3>Corporate Events</h3>
-                    <p>Focused on corporate retreat planning, team-building events, and business conferences within regional markets.</p>
-                    <div class="label">Search Themes: Corporate Retreat, Team Building</div>
-                </div>
-                <div class="audience-card">
-                    <div class="audience-icon">🎪</div>
-                    <h3>Weddings & NPO (Gala)</h3>
-                    <p>High-margin events including weddings, galas, fundraisers, and upscale nonprofit functions.</p>
-                    <div class="label">Search Themes: Wedding, Gala, Nonprofit Events</div>
-                </div>
-            </div>
-            <div class="strategy-note">
-                <strong>Strategy:</strong> Bid = Maximize Conversions · Type = Performance Max · Serves across Search, Display, YouTube, Gmail & Maps simultaneously
-            </div>
-        </div>
-
-        <!-- Section 6: Month-over-Month Comparison -->
-        <div class="section">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                <div class="section-title" style="margin-bottom:0">Month-over-Month Comparison</div>
-                <div style="display:flex;gap:6px;">
-                    <button id="argyle-mom-tab-google" onclick="switchArgyleMomTab('google')"
-                        style="background:var(--skc-navy);color:#fff;border:none;padding:5px 14px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s">
-                        Google Ads
-                    </button>
-                    <button id="argyle-mom-tab-meta" onclick="switchArgyleMomTab('meta')"
-                        style="background:transparent;color:var(--skc-navy);border:1px solid var(--skc-border);padding:5px 14px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s">
-                        Meta
-                    </button>
-                </div>
-            </div>
-            <div class="table-wrapper">
-                <table id="momTable"><!-- Google Ads MoM --></table>
-                <table id="momMetaTable" style="display:none;"><!-- Meta MoM --></table>
-            </div>
+            <div class="section-title">Asset Group Ranking — Cost/Conv</div>
             <div class="card">
+                <div class="mom-wrapper"><table id="rankingTable"></table></div>
+            </div>
+        </div>
+
+        <!-- Month-over-Month Portfolio -->
+        <div class="section">
+            <div class="section-title">Month-over-Month Portfolio Summary</div>
+            <div class="card">
+                <div class="mom-wrapper"><table class="mom-table" id="momTable"></table></div>
                 <div class="chart-container">
                     <canvas id="momChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Section 7: Website Analytics (GA4) -->
-        <div class="section" id="ga4Section">
-            <!-- Dynamically populated -->
-        </div>
-
-        <!-- Section 8: Optimization Recommendations -->
+        <!-- Per-Asset-Group MoM -->
         <div class="section">
-            <div class="insights-card" id="recsCard">
-                <!-- Dynamically populated -->
+            <div class="section-title">Per-Asset-Group Month-over-Month</div>
+            <div class="card">
+                <div class="mom-wrapper"><table id="campaignMomTable"></table></div>
             </div>
         </div>
 
-        <!-- Section 9: Next Steps -->
+        <!-- Meta Ads Analytics -->
         <div class="section">
-            <div class="next-steps-card" id="nextStepsCard" style="display:none;">
-                <!-- Dynamically populated -->
-            </div>
+            <div class="section-title">&#128200; Meta Ads — Landing Page Views</div>
+            <div class="card" id="ga4Section"></div>
         </div>
 
-        <!-- Section 10: Creative Ads -->
+        <!-- Highlights -->
         <div class="section">
-            <div class="creatives-header">
-                <h2>⭐ Top Performing Creatives — Argyle</h2>
-                <button class="btn-add" onclick="openAddCreativeModal()">+ Add Creative</button>
-            </div>
-            <div class="ads-grid" id="creativesGrid">
-                <!-- Dynamically populated -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal: Add Creative -->
-    <div class="modal" id="creativeModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <div class="modal-title">Add Creative</div>
-            <form onsubmit="addCreative(event)">
-                <div class="form-group">
-                    <label>Platform</label>
-                    <select id="creativeFormPlatform" required>
-                        <option value="">Select platform</option>
-                        <option value="Google Ads">Google Ads</option>
-                        <option value="Meta">Meta</option>
-                        <option value="Display">Display</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Creative Name</label>
-                    <input type="text" id="creativeFormName" placeholder="e.g., Argyle – Spring Event 01" required />
-                </div>
-                <div class="form-group">
-                    <label>Key Metric</label>
-                    <input type="text" id="creativeFormMetric" placeholder="e.g., 12.4% CTR" required />
-                </div>
-                <div class="form-group">
-                    <label>Image Upload</label>
-                    <input type="file" id="creativeFormImage" accept="image/*" />
-                </div>
-                <button type="submit" class="btn-submit">Add Creative</button>
-            </form>
+            <div class="insights-card" id="highlightsCard"></div>
         </div>
     </div>
 
     <script>
         // ─── DATA ────────────────────────────────────────────────────
-        const MONTHS = ['March 2026', 'April 2026', 'May 2026', 'June 2026 (1–29)', 'July 2026', 'August 2026 (1–10)'];
+        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026 (1–17)'];
         let currentMonthIdx = 5;
 
-        // ── GOOGLE ADS (Argyle – 2026 PMax) ──
-        const argyleGA = [
-            { impr:15424, clicks:187, spend:253.88, conv:2.33, cpc:1.36, ctr:1.21, costConv:108.79, budget:'$13/day', status:'Optimizing',
-                assetGroups:[
-                    {name:'WorldCup Event Space',impr:13941,int:487,ctr:'3.49%',spend:204.15,conv:2.33,costConv:87.48},
-                    {name:'Corporate Events',impr:1483,int:123,ctr:'8.29%',spend:49.73,conv:0,costConv:null},
-                    {name:'Weddings',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true},
-                    {name:'NPO (Gala)',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null}
-                ],
-                insights:['High CPA ($108.79) — budget limited at $13/day, search impression share under 10%.','Recommend: Increase daily budget to $20–25/day to expand reach and capture more conversions.','Audit conversion tracking — verify all form submissions are recording correctly in GA4.']
-            },
-            { impr:10727, clicks:205, spend:389.05, conv:12.47, cpc:1.90, ctr:1.91, costConv:31.21, budget:'$13/day', status:'Improving',
-                assetGroups:[
-                    {name:'WorldCup Event Space',impr:5732,int:91,ctr:'1.59%',spend:228.17,conv:6.47,costConv:35.28},
-                    {name:'Corporate Events',impr:1451,int:67,ctr:'4.62%',spend:115.42,conv:6.00,costConv:19.24},
-                    {name:'Weddings',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true},
-                    {name:'NPO (Gala)',impr:3544,int:47,ctr:'1.33%',spend:45.45,conv:0,costConv:null}
-                ],
-                insights:['CPA improved 71% MoM ($108.79 → $31.21) as Performance Max matured.','Conversions grew from 2.33 to 12.47 — algorithm found higher-intent users.','NPO (Gala) activated with $0.97 avg CPC — lowest in campaign.']
-            },
-            { impr:25723, clicks:199, spend:394.07, conv:6.89, cpc:1.98, ctr:0.77, costConv:57.19, budget:'$13/day', status:'Mixed',
-                assetGroups:[
-                    {name:'WorldCup Event Space',impr:23338,int:162,ctr:'0.69%',spend:321.72,conv:3.56,costConv:90.43},
-                    {name:'Corporate Events',impr:1603,int:24,ctr:'1.50%',spend:52.30,conv:3.33,costConv:15.69},
-                    {name:'Weddings',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true},
-                    {name:'NPO (Gala)',impr:782,int:13,ctr:'1.66%',spend:20.05,conv:0,costConv:null,note:'Paused mid-May'}
-                ],
-                insights:['Impressions 2.4x MoM but CTR collapsed 1.91% → 0.77% — lower-intent audience reached.','CPA worsened to $57.19. WorldCup reach is broad but quality declined.','Corporate Events efficient at $15.69/conv — search themes working.']
-            },
-            { impr:27105, clicks:596, spend:426.52, conv:5.63, cpc:0.72, ctr:2.20, costConv:75.78, budget:'$14.16/day', status:'Mixed',
-                assetGroups:[
-                    {name:'WorldCup Event Space',impr:17200,int:310,ctr:'1.80%',spend:275.00,conv:17.50,costConv:15.71},
-                    {name:'Corporate Events',impr:1900,int:55,ctr:'2.89%',spend:43.00,conv:3.39,costConv:12.68},
-                    {name:'Weddings',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true},
-                    {name:'NPO (Gala)',impr:477,int:11,ctr:'2.31%',spend:5.47,conv:0,costConv:null}
-                ],
-                insights:['CTR improved to 2.20% — algorithm found more engaged audiences.','Corporate Events delivered $12.68 CPA — most efficient asset group.','CPA rose to $75.78 overall — WorldCup targeting needs refinement.']
-            },
-            { impr:12127, clicks:497, spend:436.48, conv:19.52, cpc:0.88, ctr:4.10, costConv:22.36, budget:'$19/day', status:'Optimizing',
-                assetGroups:[
-                    {name:'WorldCup Event Space',impr:4700,int:107,ctr:'2.28%',spend:75.00,conv:1.20,costConv:62.50},
-                    {name:'Corporate Events',impr:400,int:10,ctr:'2.50%',spend:7.50,conv:0.13,costConv:null},
-                    {name:'Weddings',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true},
-                    {name:'NPO (Gala)',impr:83,int:2,ctr:'2.41%',spend:0.42,conv:0,costConv:null}
-                ],
-                insights:['Budget raised to $19/day. July CPA $22.36 — best performance to date.','Campaign flagged "Limited by budget" — $19/day cap still constraining reach.','Meta Est. 4713 completed Jul 31. New Est. 4742 August campaign launched.']
-            },
-            { impr:8124, clicks:336, spend:172.84, conv:3.00, cpc:0.51, ctr:4.14, costConv:57.61, budget:'$19/day', status:'Optimizing',
-                assetGroups:[
-                    {name:'Evergreen',impr:8124,int:336,ctr:'4.14%',spend:172.84,conv:3.00,costConv:57.61,status:'Active'},
-                    {name:'WorldCup Event Space',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true},
-                    {name:'Corporate Events',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true},
-                    {name:'Weddings',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true},
-                    {name:'NPO (Gala)',impr:0,int:0,ctr:'—',spend:0,conv:0,costConv:null,paused:true}
-                ],
-                insights:['Aug 1–10 actual data. All original asset groups paused; Evergreen is sole active asset group.',
-                          'Meta Est. 4742: 688 LPVs at $0.26/LPV through Aug 9. $178.88 spent. 21,831 reach.',
-                          'Google Ads limited by $19/day budget. CPA $57.61 from Evergreen.']
-            }
+        const argyleMonthly = [
+          {
+            month: 'March 2026', impr: 15424, clicks: 187, spend: 253.88, conv: 2.33, cpc: 1.36,
+            ctr: 1.21, costConv: 108.79,
+            assetGroups: [
+              { name: 'WorldCup Event Space', impr: 13941, clicks: 487, ctr: '3.49%', spend: 204.15, conv: 2.33, costConv: 87.48 },
+              { name: 'Corporate Events',     impr: 1483,  clicks: 123, ctr: '8.29%', spend: 49.73,  conv: 0,    costConv: null },
+              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null },
+            ],
+            optScore: '79.7%', status: 'Optimizing', note: 'Budget limited at $13/day — search impression share under 10%.'
+          },
+          {
+            month: 'April 2026', impr: 10727, clicks: 205, spend: 389.05, conv: 12.47, cpc: 1.90,
+            ctr: 1.91, costConv: 31.21,
+            assetGroups: [
+              { name: 'WorldCup Event Space', impr: 5732,  clicks: 91,  ctr: '1.59%', spend: 228.17, conv: 6.47, costConv: 35.28 },
+              { name: 'Corporate Events',     impr: 1451,  clicks: 67,  ctr: '4.62%', spend: 115.42, conv: 6.00, costConv: 19.24 },
+              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 3544,  clicks: 47,  ctr: '1.33%', spend: 45.45,  conv: 0,    costConv: null },
+            ],
+            optScore: '100%', status: 'Improving', note: 'CPA improved 71% MoM ($108.79 → $31.21). Conversions grew 5.4x.'
+          },
+          {
+            month: 'May 2026', impr: 25723, clicks: 199, spend: 394.07, conv: 6.89, cpc: 1.98,
+            ctr: 0.77, costConv: 57.19,
+            assetGroups: [
+              { name: 'WorldCup Event Space', impr: 23338, clicks: 162, ctr: '0.69%', spend: 321.72, conv: 3.56, costConv: 90.43 },
+              { name: 'Corporate Events',     impr: 1603,  clicks: 24,  ctr: '1.50%', spend: 52.30,  conv: 3.33, costConv: 15.69 },
+              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 782,   clicks: 13,  ctr: '1.66%', spend: 20.05,  conv: 0,    costConv: null, status: 'Paused mid-May' },
+            ],
+            optScore: '100%', status: 'Mixed', note: 'Impressions 2.4x MoM but CTR dropped 1.91%→0.77%. CPA rose to $57.19 from April\'s $31.21.'
+          },
+          {
+            month: 'June 2026 (1–29)', impr: 27105, clicks: 596, spend: 426.52, conv: 5.63, cpc: 0.72,
+            ctr: 2.20, costConv: 75.78,
+            assetGroups: [
+              { name: 'WorldCup Event Space', impr: 17200, clicks: 310, ctr: '1.80%', spend: 275.00, conv: 17.50, costConv: 15.71 },
+              { name: 'Corporate Events',     impr: 1900,  clicks: 55,  ctr: '2.89%', spend: 43.00,  conv: 3.39,  costConv: 12.68 },
+              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,     costConv: null, status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 477,   clicks: 11,  ctr: '2.31%', spend: 5.47,   conv: 0,     costConv: null },
+            ],
+            status: 'Optimizing', note: 'CPA rose to $75.78 in June — review WorldCup targeting. New Meta campaign Est. 4713 scheduled Jul 31.'
+          },
+          {
+            month: 'July 2026', impr: 12127, clicks: 497, spend: 436.48, conv: 19.52, cpc: 0.88,
+            ctr: 4.10, costConv: 22.36,
+            assetGroups: [
+              { name: 'WorldCup Event Space', impr: 4700, clicks: 107, ctr: '2.28%', spend: 75.00, conv: 1.20, costConv: 62.50 },
+              { name: 'Corporate Events',     impr: 400,  clicks: 10,  ctr: '2.50%', spend: 7.50,  conv: 0.13, costConv: null },
+              { name: 'Weddings',             impr: 0,    clicks: 0,   ctr: '—',     spend: 0,     conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 83,   clicks: 2,   ctr: '2.41%', spend: 0.42,  conv: 0,    costConv: null },
+            ],
+            status: 'Optimizing', note: 'Budget raised to $19/day. July CPA $22.36 (full month). Est. 4713 Meta completed Jul 31. New Est. 4742 Aug campaign launched.'
+          },
+          {
+            month: 'August 2026 (1–17)', impr: 14767, clicks: 642, spend: 319.92, conv: 8.67, cpc: 0.50,
+            ctr: 4.35, costConv: 36.91,
+            assetGroups: [
+              { name: 'Evergreen',            impr: 14767, clicks: 642, ctr: '4.35%', spend: 319.92, conv: 8.67, costConv: 36.91, status: 'Active' },
+              { name: 'WorldCup Event Space', impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null,  status: 'Paused' },
+              { name: 'Corporate Events',     impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null,  status: 'Paused' },
+              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null,  status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null,  status: 'Paused' },
+            ],
+            status: 'Optimizing', note: 'Evergreen remains the only active asset group — all others paused. CPA rose to $36.91 through Aug 17 as the $19/day budget scaled spend. Est. 4742 Meta campaign active — 1,198 LPVs (Aug 1–16).'
+          }
         ];
 
-        // ── META MONTHLY ──
-        const argyleMeta = [
-            { totalLPV:0,    totalSpend:0,      totalReach:0,     totalImpr:0,  campaign:'—',         cpl:null,  status:'No campaign',      note:'No Meta campaigns in March 2026.' },
-            { totalLPV:0,    totalSpend:0,      totalReach:0,     totalImpr:0,  campaign:'—',         cpl:null,  status:'No campaign',      note:'No Meta campaigns in April 2026.' },
-            { totalLPV:99,   totalSpend:21.85,  totalReach:1630,  totalImpr:0,  campaign:'Est. 4645', cpl:0.22,  status:'Completed May 31',  note:'Est. 4645 completed May 31. 99 LPVs at $0.22/LPV.' },
-            { totalLPV:3275, totalSpend:524.00, totalReach:49601, totalImpr:0,  campaign:'Est. 4674', cpl:0.16,  status:'Completed Jun 30',  note:'Est. 4674 — 3,275 LPVs at $0.16/LPV. Most efficient month.' },
-            { totalLPV:1207, totalSpend:289.68, totalReach:32889, totalImpr:0,  campaign:'Est. 4713', cpl:0.24,  status:'Completed Jul 31',  note:'Est. 4713 completed Jul 31. 1,207 LPVs at $0.24/LPV.' },
-            { totalLPV:688,  totalSpend:178.88, totalReach:21831, totalImpr:0,  campaign:'Est. 4742', cpl:0.26,  status:'Active',            note:'Est. 4742 active Aug 1–9. 688 LPVs at $0.26/LPV. 21,831 reach.' }
+        // ── ARGYLE META MONTHLY ──
+        const argyleMetaMonthly = [
+          { month: 'March 2026',          campaign: '—',         lpv: 0,    reach: 0,      spend: 0,      cpl: null,  status: 'No campaign' },
+          { month: 'April 2026',          campaign: '—',         lpv: 0,    reach: 0,      spend: 0,      cpl: null,  status: 'No campaign' },
+          { month: 'May 2026',            campaign: 'Est. 4645', lpv: 99,   reach: 1630,   spend: 21.85,  cpl: 0.22,  status: 'Completed May 31' },
+          { month: 'June 2026 (1–29)',    campaign: 'Est. 4674', lpv: 3275, reach: 49601,  spend: 524.00, cpl: 0.16,  status: 'Completed Jun 30' },
+          { month: 'July 2026',           campaign: 'Est. 4713', lpv: 1207, reach: 32889,  spend: 289.68, cpl: 0.24,  status: 'Completed Jul 31' },
+          { month: 'August 2026 (1–17)',  campaign: 'Est. 4742', lpv: 1198, reach: 38315,  spend: 324.35, cpl: 0.27,  status: 'Active' },
         ];
 
-        // ── GA4 ANALYTICS (Argyle Events — p525048710) ──
-        const argyleGA4 = [
-            { sessions:94015,  engRate:46.54, engTime:'46s', formSubmits:551,   paidSearchSessions:6673,  paidSocialSessions:2444,
-              channels:{organic:53.6,direct:18.3,paidSearch:7.1,social:12.0,referral:4.5,paidSocial:2.6},
-              topCities:['Kansas City','Dallas','Chicago','Overland Park','Olathe','Minneapolis'] },
-            { sessions:92000,  engRate:46.40, engTime:'43s', formSubmits:1200,  paidSearchSessions:11224, paidSocialSessions:1380,
-              channels:{organic:48.6,direct:16.6,paidSearch:12.2,social:10.4,referral:4.8,paidSocial:1.5},
-              topCities:['Kansas City','Dallas','Chicago','Overland Park','Olathe','Minneapolis'] },
-            { sessions:97417,  engRate:47.92, engTime:'33s', formSubmits:634,   paidSearchSessions:7793,  paidSocialSessions:487,
-              channels:{organic:55.0,direct:18.8,paidSearch:8.0,social:10.3,referral:4.3,paidSocial:0.5},
-              topCities:['Kansas City','Dallas','Chicago','Overland Park','Olathe','Minneapolis'] },
-            { sessions:97417,  engRate:47.92, engTime:'33s', formSubmits:null,  paidSearchSessions:7793,  paidSocialSessions:null,
-              channels:{organic:55.0,direct:18.8,paidSearch:8.0,social:10.3,referral:4.3,paidSocial:0.5},
-              note:'June GA4 data unavailable — showing May 2026 figures as reference.',
-              topCities:['Kansas City','Dallas','Chicago','Overland Park','Olathe','Minneapolis'] },
-            { sessions:126281, engRate:50.38, engTime:'34s', formSubmits:null,  paidSearchSessions:6897,  paidSocialSessions:null,
-              note:'July 2026 — full month. Argyle Events property (p525048710). Paid Search: 6,897 sessions from Google Ads.',
-              channels:{organic:50.0,direct:20.0,paidSearch:5.5,social:8.0,referral:4.5,paidSocial:3.5},
-              topCities:['Kansas City','Dallas','Chicago','Overland Park','Olathe','Minneapolis'] },
-            { sessions:26230, engRate:45.36, engTime:'31s', formSubmits:null,   paidSearchSessions:2383,  paidSocialSessions:null,
-              note:'August 2026 (1–9) — Argyle Events property (p525048710). Paid Search: 2,383 sessions. July full month shown above for comparison.',
-              julySessions:126281, julyEngRate:50.38, julyEngTime:'34s', julyPaidSearch:6897,
-              channels:{organic:48.0,direct:21.0,paidSearch:9.1,social:7.5,referral:4.0,paidSocial:2.5},
-              topCities:['Kansas City','Dallas','Chicago','Overland Park','Olathe','Minneapolis'] }
-        ];
-
-        // ── CAMPAIGN HIGHLIGHTS ──
         const argyleHighlights = [
-            ['March 2026: First full month of Argyle – 2026 PMax. 15,424 impressions, 187 clicks. CPA $108.79 — budget-constrained at $13/day.',
-             'WorldCup Event Space drove 90% of impressions (13,941). Corporate Events showed 8.29% CTR — strongest engagement.',
-             'Recommendation: Increase daily budget to $20–25/day to break through budget ceiling and scale conversions.'],
-            ['April 2026: CPA improved 71% MoM — from $108.79 to $31.21. Conversions grew 5.4x (2.33 → 12.47).',
-             'NPO (Gala) activated with 3,544 impressions and $0.97 avg CPC — lowest in campaign.',
-             'All asset groups except Weddings active. Optimization score reached 100%.'],
-            ['May 2026: Impressions surged 2.4x (25,723) but CTR fell to 0.77% — algorithm shifted to broader, lower-intent reach.',
-             'CPA worsened to $57.19 vs April\'s $31.21. Corporate Events held efficiency at $15.69/conv.',
-             'Meta Est. 4645 launched: 99 LPVs at $0.22/LPV — strong early CPL signal.'],
-            ['June 2026: Meta Est. 4674 delivered 3,275 LPVs at $0.16/LPV — most efficient Meta month.',
-             'Google Ads CTR improved to 2.20%. Corporate Events: $12.68 CPA — best asset group.',
-             'Total spend: $950.52 combined Google Ads + Meta for 5,638+ engagements.'],
-            ['July 2026: Best Google Ads month — 19.52 conversions at $22.36 CPA. CTR hit 4.10%.',
-             'Budget raised to $19/day. Meta Est. 4713 completed Jul 31: 1,207 LPVs at $0.24/LPV.',
-             'Est. 4742 August Meta campaign launched. GA4: 126,281 sessions, 50.38% engagement rate.'],
-            ['August 2026 (1–10): Evergreen is the only active Google Ads asset group — delivering 8,124 impr, 336 clicks, $172.84 spend, 3.00 conv.',
-             'Meta Est. 4742 active: 688 LPVs at $0.26/LPV through Aug 9. $178.88 spent. 21,831 reach.',
-             'GA4 Aug 1–9: 26,230 sessions, 45.36% engagement, 2,383 paid search sessions.']
+          ['Optimization Score held at 79.7% despite a $13/day budget cap — WorldCup Event Space drove 13,941 of 15,424 impressions.','Cost/conv landed at $108.79 — the highest of the year — reflecting the tight budget and early-stage targeting.','Corporate Events and NPO (Gala) asset groups saw minimal or no spend; Weddings remained paused all month.'],
+          ['Cost/conv improved 71% month-over-month ($108.79 → $31.21) as Optimization Score reached 100%.','Conversions grew 5.4x (2.33 → 12.47) with WorldCup Event Space and Corporate Events both contributing.','NPO (Gala) asset group came online with 3,544 impressions; Weddings remained paused.'],
+          ['Impressions grew 2.4x month-over-month (10,727 → 25,723), but CTR fell from 1.91% to 0.77%.','Cost/conv rose to $57.19 from April\u2019s $31.21 as the extra volume converted less efficiently.','NPO (Gala) asset group paused mid-May after underperforming; Weddings remained paused all month.'],
+          ['Cost/conv rose further to $75.78 — WorldCup Event Space targeting flagged for review.','Portfolio delivered 27,105 impressions in June, the year\u2019s high so far.','New Meta campaign \u2018Est. 4713\u2019 scheduled to launch July 31 to support lead generation.'],
+          ['Cost/conv improved sharply to $22.36 as the account consolidated spend and raised the daily budget to $19.','Meta campaign \u2018Est. 4713\u2019 completed July 31 with 1,207 landing page views at $0.24 per LPV.','A new always-on \u2018Evergreen\u2019 asset group and Meta campaign \u2018Est. 4742\u2019 launched to carry August.'],
+          ['Evergreen is now the only active Google Ads asset group — all legacy asset groups (WorldCup, Corporate, Weddings, NPO) are paused.','Cost/conv rose to $36.91 through Aug 17 as the $19/day budget scaled spend on the new structure.','Meta campaign \u2018Est. 4742\u2019 is active with 1,198 landing page views on $324.35 spend ($0.27 per LPV) through Aug 16.']
         ];
 
-        const argyleRecs = [
-            {nextSteps:['Increase daily budget to $20–25/day to expand reach and reduce CPA.','Audit conversion attribution and form_submit tracking in GA4.','Action optimization score recommendations in Google Ads.']},
-            {nextSteps:['Scale daily budget to $20–25/day — CPA improvement makes the case clear.','Expand NPO (Gala) search themes for a full May window.','Add Customer Match from event inquiry lists to push CTR above 2.5%.']},
-            {nextSteps:['Audit WorldCup targeting before any budget increase — CTR collapse needs investigation.','Verify form_submit key event tag is firing across all Argyle landing pages.','Reactivate NPO (Gala) for full June window with refreshed creative.']},
-            {nextSteps:['Shift daily budget allocation toward Corporate Events ($12.68 CPA).','Restore GA4 access for June reporting.','Confirm NPO (Gala) pause status with Argyle team.']},
-            {nextSteps:['Monitor Meta Est. 4742 — 688 LPVs through Aug 9 at $0.26/LPV.','Increase Google Ads daily budget to $22–25/day — converting at $22.36 CPA.','Refresh creative assets for August/fall event season.']},
-            {nextSteps:['Monitor Meta Est. 4742 delivery through end of August.','Monitor Google Ads spend — confirm $19/day is being fully utilized.','Pull full August GA4 data when available to assess paid search contribution.']}
-        ];
-
-
-        let adData = { argyle: [] };
-        let adImageData = {};
         let momChart = null;
 
-        // Initialize
-        // ── ARGYLE MOM TAB SWITCHING ──
-        let currentArgyleMomTab = 'google';
-        function switchArgyleMomTab(tab) {
-            currentArgyleMomTab = tab;
-            const googleTable = document.getElementById('momTable');
-            const metaTable   = document.getElementById('momMetaTable');
-            if (googleTable) googleTable.style.display = tab === 'google' ? '' : 'none';
-            if (metaTable)   metaTable.style.display   = tab === 'meta'   ? '' : 'none';
-            const gBtn = document.getElementById('argyle-mom-tab-google');
-            const mBtn = document.getElementById('argyle-mom-tab-meta');
-            if (gBtn) {
-                gBtn.style.background = tab === 'google' ? 'var(--skc-navy)' : 'transparent';
-                gBtn.style.color = tab === 'google' ? '#fff' : 'var(--skc-navy)';
-                gBtn.style.border = tab === 'google' ? 'none' : '1px solid var(--skc-border)';
-            }
-            if (mBtn) {
-                mBtn.style.background = tab === 'meta' ? 'var(--skc-navy)' : 'transparent';
-                mBtn.style.color = tab === 'meta' ? '#fff' : 'var(--skc-navy)';
-                mBtn.style.border = tab === 'meta' ? 'none' : '1px solid var(--skc-border)';
-            }
+        // ─── HELPERS ──────────────────────────────────────────────────
+        const fmt = {
+          n: v => v == null ? '—' : Number(v).toLocaleString(),
+          d: v => v == null ? '—' : '$' + Number(v).toFixed(2),
+          d0: v => v == null ? '—' : '$' + Number(v).toFixed(0),
+          pct: v => v == null ? '—' : Number(v).toFixed(2) + '%'
+        };
+
+        function statusBadge(s) {
+          const cls = (s || '').toLowerCase().replace(/[^a-z]/g, '-');
+          return `<span class="status-badge ${cls}">${s}</span>`;
         }
 
-
-        function init() {
-            updateGeneratedDate();
-            renderDashboard(currentMonthIdx);
-            setupEventListeners();
+        // ─── RENDER FUNCTIONS ─────────────────────────────────────────
+        function renderYTD(idx) {
+          const totals = argyleMonthly.slice(0, idx + 1).reduce((acc, m) => ({
+            impr: acc.impr + m.impr, clicks: acc.clicks + m.clicks,
+            spend: acc.spend + m.spend, conv: acc.conv + m.conv
+          }), {impr:0, clicks:0, spend:0, conv:0});
+          const label = idx === 0 ? 'March 2026' : `Mar–${MONTHS[idx].replace(' 2026','').replace(' (1–17)','').replace(' (1–29)','')} 2026`;
+          document.getElementById('ytdStrip').innerHTML =
+            `<strong>${label} YTD:</strong>&nbsp;&nbsp;`+
+            `${fmt.n(Math.round(totals.impr))} impressions &nbsp;·&nbsp; `+
+            `${fmt.n(Math.round(totals.clicks))} clicks &nbsp;·&nbsp; `+
+            `${fmt.d0(totals.spend)} spend &nbsp;·&nbsp; `+
+            `${totals.conv.toFixed(2)} conversions &nbsp;·&nbsp; `+
+            `avg ${fmt.d(totals.spend / totals.conv)} cost/conv`;
         }
 
-        function updateGeneratedDate() {
-            const today = new Date();
-            const dateStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            document.getElementById('generatedDate').textContent = dateStr;
+        function renderKPI(idx) {
+          const m = argyleMonthly[idx];
+          document.getElementById('kpiStrip').innerHTML = `
+            <div class="kpi-tile"><div class="kpi-label">Impressions</div><div class="kpi-value">${fmt.n(m.impr)}</div></div>
+            <div class="kpi-tile"><div class="kpi-label">Clicks</div><div class="kpi-value">${fmt.n(m.clicks)}</div></div>
+            <div class="kpi-tile"><div class="kpi-label">CTR</div><div class="kpi-value blue">${m.ctr.toFixed(2)}%</div></div>
+            <div class="kpi-tile"><div class="kpi-label">Total Spend</div><div class="kpi-value gold">${m.spend.toFixed(2)}</div></div>
+            <div class="kpi-tile"><div class="kpi-label">Conversions</div><div class="kpi-value green">${m.conv.toFixed(2)}</div></div>
+            <div class="kpi-tile"><div class="kpi-label">Cost/Conv</div><div class="kpi-value">${fmt.d(m.costConv)}</div></div>
+            <div class="kpi-tile"><div class="kpi-label">Avg CPC</div><div class="kpi-value">${fmt.d(m.cpc)}</div></div>
+          `;
         }
 
-        function setupEventListeners() {
-            document.getElementById('prevMonth').addEventListener('click', () => {
-                if (currentMonthIdx > 0) {
-                    currentMonthIdx--;
-                    renderDashboard(currentMonthIdx);
-                }
-            });
-
-            document.getElementById('nextMonth').addEventListener('click', () => {
-                if (currentMonthIdx < MONTHS.length - 1) {
-                    currentMonthIdx++;
-                    renderDashboard(currentMonthIdx);
-                }
-            });
-        }
-
-        function renderDashboard(idx) {
-            const month = MONTHS[idx];
-            const ga = argyleGA[idx];
-            const meta = argyleMeta[idx];
-            const ga4 = argyleGA4[idx];
-            const recs = argyleRecs[idx];
-
-            // Update controls
-            document.getElementById('monthDisplay').textContent = month;
-            document.getElementById('prevMonth').disabled = idx === 0;
-            document.getElementById('nextMonth').disabled = idx === MONTHS.length - 1;
-
-            const dataThroughNote = idx === MONTHS.length - 1 ? 'Data through August 10, 2026' : `Data through ${month}`;
-            document.getElementById('dataNote').textContent = dataThroughNote;
-
-            // Campaign KPIs
-            renderCampaignKPIs(ga);
-
-            // Google Ads
-            renderGoogleAdsCard(ga);
-
-            // Asset Groups
-            renderAssetGroups(ga);
-
-            // Meta
-            renderMeta(meta, idx);
-
-            // GA4
-            renderGA4(ga4);
-
-            // Recs & Next Steps
-            renderRecommendations(recs);
-
-            // Creatives
-            renderCreatives();
-
-            // MoM Table & Chart
-            renderMoMComparison();
-        }
-
-        function renderCampaignKPIs(ga) {
-            const html = `
-                <div class="kpi-tile">
-                    <div class="kpi-label">Impressions</div>
-                    <div class="kpi-value">${(ga.impr).toLocaleString()}</div>
-                </div>
-                <div class="kpi-tile">
-                    <div class="kpi-label">Clicks</div>
-                    <div class="kpi-value">${(ga.clicks).toLocaleString()}</div>
-                </div>
-                <div class="kpi-tile">
-                    <div class="kpi-label">CTR</div>
-                    <div class="kpi-value blue">${(ga.ctr).toFixed(2)}%</div>
-                </div>
-                <div class="kpi-tile">
-                    <div class="kpi-label">Total Spend</div>
-                    <div class="kpi-value gold">$${(ga.spend).toFixed(2)}</div>
-                </div>
-                <div class="kpi-tile">
-                    <div class="kpi-label">Conversions</div>
-                    <div class="kpi-value green">${(ga.conv).toFixed(2)}</div>
-                </div>
-                <div class="kpi-tile">
-                    <div class="kpi-label">Cost/Conv</div>
-                    <div class="kpi-value">$${(ga.costConv).toFixed(2)}</div>
-                </div>
-                <div class="kpi-tile">
-                    <div class="kpi-label">Avg CPC</div>
-                    <div class="kpi-value">$${(ga.cpc).toFixed(2)}</div>
-                </div>
-                <div class="kpi-tile">
-                    <div class="kpi-label">Status</div>
-                    <div class="status-pill ${getStatusClass(ga.status)}">${ga.status}</div>
-                </div>
-            `;
-            document.getElementById('campaignKPIs').innerHTML = html;
-        }
-
-        function getStatusClass(status) {
-            if (status === 'Improving') return 'improving';
-            if (status === 'Mixed') return 'mixed';
-            return 'attention';
-        }
-
-        function renderGoogleAdsCard(ga) {
-            const html = `
-                <div class="card-header">
-                    <div>
-                        <div class="card-title">Argyle – 2026 | Performance Max</div>
-                        <div style="margin-top: 4px;">
-                            <span class="badge">${ga.budget} Budget</span>
-                            <span class="status-pill ${getStatusClass(ga.status)}" style="margin-left: 8px;">${ga.status}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="kpi-grid" style="margin-bottom: 20px;">
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Impressions</div>
-                        <div class="kpi-value">${(ga.impr).toLocaleString()}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Clicks</div>
-                        <div class="kpi-value">${(ga.clicks).toLocaleString()}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">CTR</div>
-                        <div class="kpi-value blue">${(ga.ctr).toFixed(2)}%</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Spend</div>
-                        <div class="kpi-value gold">$${(ga.spend).toFixed(2)}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Conversions</div>
-                        <div class="kpi-value green">${(ga.conv).toFixed(2)}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">CPA</div>
-                        <div class="kpi-value">$${(ga.costConv).toFixed(2)}</div>
-                    </div>
-                </div>
-                <div>
-                    <div style="font-weight: 600; color: var(--skc-navy); margin-bottom: 8px;">Key Insights</div>
-                    <ul style="list-style: none; padding: 0;">
-                        ${ga.insights.map(insight => `<li style="margin-bottom: 8px; padding-left: 16px; position: relative; color: var(--skc-text); font-size: 13px;"><span style="position: absolute; left: 0;">•</span>${insight}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
-            document.getElementById('googleAdsCard').innerHTML = html;
-        }
-
-        function renderAssetGroups(ga) {
-            let html = `<thead><tr><th>Asset Group</th><th>Impressions</th><th>Interactions</th><th>CTR</th><th>Spend</th><th>Conversions</th><th>Cost/Conv</th><th>Status</th></tr></thead><tbody>`;
-
-            ga.assetGroups.forEach(ag => {
-                const rowClass = ag.paused ? 'row-warn' : (ag.costConv === null ? '' : (ag.costConv <= 5 ? 'row-good' : (ag.costConv <= 25 ? 'row-warn' : 'row-bad')));
-                const status = ag.paused ? 'Paused' : (ag.costConv === null ? '—' : (ag.costConv <= 5 ? 'Efficient' : (ag.costConv <= 25 ? 'OK' : 'Optimizing')));
-
-                html += `
-                    <tr class="${rowClass}">
-                        <td style="font-weight: 600;">${ag.name}</td>
-                        <td>${(ag.impr).toLocaleString()}</td>
-                        <td>${(ag.int).toLocaleString()}</td>
-                        <td>${ag.ctr}</td>
-                        <td>$${(ag.spend).toFixed(2)}</td>
-                        <td>${(ag.conv).toFixed(2)}</td>
-                        <td>${ag.costConv === null ? '—' : '$' + (ag.costConv).toFixed(2)}</td>
-                        <td><span class="status-pill ${status === 'Paused' ? 'attention' : (status === 'Efficient' ? 'improving' : 'mixed')}">${status}</span></td>
-                    </tr>
-                `;
-            });
-
-            html += `</tbody>`;
-            document.getElementById('assetGroupTable').innerHTML = html;
-        }
-
-        function renderMeta(meta, idx) {
-            const section = document.getElementById('metaSection');
-
-            // No campaign months (March, April)
-            if (!meta.totalLPV && (!meta.status || meta.status === 'No campaign')) {
-                section.innerHTML = `
-                    <div class="section-title">Meta / Facebook</div>
-                    <div class="placeholder-card">
-                        <p>${meta.note || 'No Meta campaigns this month.'}</p>
-                        <div class="label">No active campaigns this month</div>
-                    </div>
-                `;
-                return;
-            }
-
-            let html = `<div class="section-title">Meta / Facebook</div>`;
-
+        function renderAssetGroupCards(idx) {
+          const m = argyleMonthly[idx];
+          let html = '';
+          m.assetGroups.forEach(c => {
+            const isPaused = c.status === 'Paused' || (c.impr === 0 && c.clicks === 0);
+            const displayStatus = c.status || (isPaused ? 'Paused' : 'Active');
             html += `
-                <div class="kpi-grid">
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Campaign</div>
-                        <div class="kpi-value" style="font-size:16px;">${meta.campaign || '—'}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Status</div>
-                        <div class="status-pill ${meta.status === 'Active' ? 'improving' : 'mixed'}">${meta.status || '—'}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Landing Page Views</div>
-                        <div class="kpi-value green">${meta.totalLPV ? meta.totalLPV.toLocaleString() : '—'}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Total Spend</div>
-                        <div class="kpi-value gold">$${meta.totalSpend ? meta.totalSpend.toFixed(2) : '—'}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Cost / LPV</div>
-                        <div class="kpi-value">$${meta.cpl ? meta.cpl.toFixed(2) : '—'}</div>
-                    </div>
-                    <div class="kpi-tile">
-                        <div class="kpi-label">Reach</div>
-                        <div class="kpi-value">${meta.totalReach ? meta.totalReach.toLocaleString() : '—'}</div>
-                    </div>
+              <div class="campaign-card${isPaused ? ' paused' : ''}">
+                <div class="card-header" style="margin-bottom:8px;padding-bottom:6px;">
+                  <div class="campaign-name">${c.name}</div>
+                  ${statusBadge(displayStatus)}
                 </div>
-            `;
-
-            if (meta.note) {
-                html += `<div class="warning-banner" style="margin-top:12px;font-size:12px;">${meta.note}</div>`;
-            }
-
-            section.innerHTML = html;
-        }
-
-        function renderGA4(ga4) {
-            const section = document.getElementById('ga4Section');
-            let h = `<div class="section-title">&#128200; Website Analytics (GA4) — Argyle Events</div>`;
-
-            if (ga4.pending) {
-                h += `<div class="placeholder-card" style="padding:20px;text-align:center;border:1px dashed var(--skc-border);border-radius:8px;color:var(--skc-muted);">
-                    <div style="font-size:28px;margin-bottom:8px">📊</div>
-                    <strong>GA4 Data Pending</strong><br/><span style="font-size:12px;">${ga4.note}</span>
-                </div>`;
-                section.innerHTML = h;
-                return;
-            }
-
-            // Note banner
-            if (ga4.note) {
-                h += `<div class="warning-banner" style="margin-bottom:12px;font-size:12px;">${ga4.note}</div>`;
-            }
-
-            // KPI tiles
-            const fmt = v => v == null ? 'Pending' : (typeof v === 'number' ? v.toLocaleString() : v);
-            // If this month has prior month comparison data (August has July), show both
-            if (ga4.julySessions) {
-                h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-                    <div style="background:var(--skc-light);border:1px solid var(--skc-border);border-radius:8px;padding:14px;">
-                        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--skc-muted);margin-bottom:10px;">July 2026 — Full Month</div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                            <div class="kpi-tile" style="padding:10px;"><div class="kpi-value" style="font-size:18px;">${ga4.julySessions.toLocaleString()}</div><div class="kpi-label" style="font-size:10px;">Sessions</div></div>
-                            <div class="kpi-tile" style="padding:10px;"><div class="kpi-value blue" style="font-size:18px;">${ga4.julyEngRate}%</div><div class="kpi-label" style="font-size:10px;">Engagement</div></div>
-                            <div class="kpi-tile" style="padding:10px;"><div class="kpi-value" style="font-size:18px;">${ga4.julyEngTime}</div><div class="kpi-label" style="font-size:10px;">Avg. Eng. Time</div></div>
-                            <div class="kpi-tile" style="padding:10px;"><div class="kpi-value gold" style="font-size:18px;">${ga4.julyPaidSearch.toLocaleString()}</div><div class="kpi-label" style="font-size:10px;">Paid Search</div></div>
-                        </div>
-                    </div>
-                    <div style="background:var(--skc-light);border:1px solid var(--skc-border);border-left:4px solid var(--skc-gold);border-radius:8px;padding:14px;">
-                        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--skc-muted);margin-bottom:10px;">August 2026 (1–9)</div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                            <div class="kpi-tile" style="padding:10px;"><div class="kpi-value" style="font-size:18px;">${ga4.sessions.toLocaleString()}</div><div class="kpi-label" style="font-size:10px;">Sessions</div></div>
-                            <div class="kpi-tile" style="padding:10px;"><div class="kpi-value blue" style="font-size:18px;">${ga4.engRate}%</div><div class="kpi-label" style="font-size:10px;">Engagement</div></div>
-                            <div class="kpi-tile" style="padding:10px;"><div class="kpi-value" style="font-size:18px;">${ga4.engTime}</div><div class="kpi-label" style="font-size:10px;">Avg. Eng. Time</div></div>
-                            <div class="kpi-tile" style="padding:10px;"><div class="kpi-value gold" style="font-size:18px;">${ga4.paidSearchSessions.toLocaleString()}</div><div class="kpi-label" style="font-size:10px;">Paid Search</div></div>
-                        </div>
-                    </div>
-                </div>`;
-            } else {
-                h += `<div class="kpi-grid" style="margin-bottom:20px;">
-                    <div class="kpi-tile"><div class="kpi-value">${fmt(ga4.sessions)}</div><div class="kpi-label">Total Sessions</div></div>
-                    <div class="kpi-tile"><div class="kpi-value">${ga4.engRate != null ? ga4.engRate + '%' : 'Pending'}</div><div class="kpi-label">Engagement Rate</div></div>
-                    <div class="kpi-tile"><div class="kpi-value">${ga4.engTime || 'Pending'}</div><div class="kpi-label">Avg. Engagement Time</div></div>
-                    <div class="kpi-tile"><div class="kpi-value">${fmt(ga4.formSubmits)}</div><div class="kpi-label">Form Submits</div></div>
-                    <div class="kpi-tile"><div class="kpi-value" style="color:var(--skc-gold)">${ga4.paidSearchSessions != null ? ga4.paidSearchSessions.toLocaleString() : 'N/A'}</div><div class="kpi-label">Paid Search Sessions</div></div>
-                    <div class="kpi-tile"><div class="kpi-value" style="color:var(--skc-blue-mid)">${ga4.paidSocialSessions != null ? ga4.paidSocialSessions.toLocaleString() : 'N/A'}</div><div class="kpi-label">Paid Social Sessions</div></div>
-                </div>`;
-            }
-
-            // Traffic by channel
-            if (ga4.channels) {
-                h += `<div style="margin-bottom:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--skc-muted);">Traffic by Channel</div>`;
-                const colors = {organic:'#16A34A',direct:'#3B82F6',social:'#8B5CF6',paidSearch:'#F5A800',referral:'#0891B2',paidSocial:'#EC4899',unassigned:'#9CA3AF'};
-                const labels = {organic:'Organic Search',direct:'Direct',social:'Organic Social',paidSearch:'Paid Search',referral:'Referral',paidSocial:'Paid Social',unassigned:'Unassigned'};
-                Object.entries(ga4.channels).forEach(([key, pct]) => {
-                    const color = colors[key] || '#9CA3AF';
-                    h += `<div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">
-                        <div style="width:110px;font-size:11px;color:var(--skc-muted);white-space:nowrap;">${labels[key]||key}</div>
-                        <div style="flex:1;background:var(--skc-border);border-radius:99px;height:8px;overflow:hidden;">
-                            <div style="width:${pct}%;height:100%;background:${color};border-radius:99px;"></div>
-                        </div>
-                        <div style="width:36px;text-align:right;font-size:12px;font-weight:700;color:var(--skc-text);">${pct}%</div>
-                    </div>`;
-                });
-            }
-
-            // Top cities
-            if (ga4.topCities && ga4.topCities.length) {
-                h += `<div style="margin-top:14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--skc-muted);margin-bottom:6px;">Top Cities</div>`;
-                h += `<div style="display:flex;flex-wrap:wrap;gap:6px;">`;
-                ga4.topCities.forEach((city,i) => {
-                    h += `<span style="background:var(--skc-light);border:1px solid var(--skc-border);border-radius:20px;padding:3px 10px;font-size:11px;">${i+1}. ${city}</span>`;
-                });
-                h += `</div>`;
-            }
-
-            section.innerHTML = h;
-        }
-
-        function renderRecommendations(recs) {
-            const highlights = argyleHighlights[currentMonthIdx] || [];
-            let html = `<div class="section-title">&#9733; Campaign Highlights</div>`;
-            highlights.forEach(h => {
-                html += `<div class="insight-item" style="border-left:4px solid var(--skc-gold);background:rgba(245,168,0,0.06);">
-                    <p style="margin:0;">&#10003; ${h}</p>
-                </div>`;
-            });
-            document.getElementById('recsCard').innerHTML = html;
-            // Next Steps removed
-            const ns = document.getElementById('nextStepsCard');
-            if (ns) ns.style.display = 'none';
-        }
-
-        function renderCreatives() {
-            const grid = document.getElementById('creativesGrid');
-
-            if (adData.argyle.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1 / -1;">
-                        <div class="placeholder-card">
-                            <p>No creatives added yet</p>
-                            <div class="label">Click "+ Add Creative" to get started</div>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = adData.argyle.map(ad => `
-                <div class="ad-card">
-                    <div class="ad-image">
-                        ${adImageData[ad.id] ? `<img src="${adImageData[ad.id]}" alt="${ad.name}">` : 'No image'}
-                    </div>
-                    <div class="ad-info">
-                        <div class="ad-name">${ad.name}</div>
-                        <div class="ad-metric">${ad.metric}</div>
-                    </div>
+                <div class="campaign-kpis">
+                  <div class="ckpi"><div class="ckpi-val">${isPaused ? '—' : fmt.n(c.impr)}</div><div class="ckpi-label">Impr</div></div>
+                  <div class="ckpi"><div class="ckpi-val">${isPaused ? '—' : c.ctr}</div><div class="ckpi-label">CTR</div></div>
+                  <div class="ckpi"><div class="ckpi-val" style="color:var(--skc-gold)">${isPaused ? '—' : fmt.d(c.costConv)}</div><div class="ckpi-label">$/Conv</div></div>
                 </div>
-            `).join('');
+                <div style="font-size:12px;color:var(--skc-text);margin-bottom:6px;">
+                  ${isPaused ? 'No spend this month' : `${c.conv.toFixed ? c.conv.toFixed(2) : c.conv} conv · ${fmt.d(c.spend)} spent`}
+                </div>
+                <div class="campaign-footer">
+                  <span>Share of month spend: ${m.spend > 0 ? ((c.spend / m.spend) * 100).toFixed(0) + '%' : '—'}</span>
+                </div>
+              </div>`;
+          });
+          document.getElementById('campaignGrid').innerHTML = html;
         }
 
-        function renderMoMComparison() {
-            // ── Google Ads MoM table ──
-            let gTableHtml = `<thead><tr><th style="font-weight:700;min-width:110px;"></th>`;
-            MONTHS.forEach((m, i) => {
-                const isCurr = i === currentMonthIdx;
-                gTableHtml += `<th style="${isCurr ? 'background:var(--skc-gold);color:var(--skc-navy);' : ''}">${m}</th>`;
-            });
-            gTableHtml += `</tr></thead><tbody>`;
-            const gRows = ['Impressions','Clicks','CTR (%)','Spend ($)','Conversions','CPA ($)'];
-            gRows.forEach((label, rowIdx) => {
-                gTableHtml += `<tr><td style="font-weight:600;">${label}</td>`;
-                MONTHS.forEach((m, colIdx) => {
-                    const isCurr = colIdx === currentMonthIdx;
-                    let val = '—';
-                    if (rowIdx === 0) val = argyleGA[colIdx].impr.toLocaleString();
-                    else if (rowIdx === 1) val = argyleGA[colIdx].clicks.toLocaleString();
-                    else if (rowIdx === 2) val = argyleGA[colIdx].ctr.toFixed(2) + '%';
-                    else if (rowIdx === 3) val = '$' + argyleGA[colIdx].spend.toFixed(0);
-                    else if (rowIdx === 4) val = argyleGA[colIdx].conv.toFixed(1);
-                    else if (rowIdx === 5) val = '$' + argyleGA[colIdx].costConv.toFixed(2);
-                    gTableHtml += `<td style="${isCurr ? 'background:rgba(245,168,0,0.1);font-weight:600;' : ''}">${val}</td>`;
-                });
-                gTableHtml += `</tr>`;
-            });
-            gTableHtml += `</tbody>`;
-            document.getElementById('momTable').innerHTML = gTableHtml;
+        function renderRankingTable(idx) {
+          const m = argyleMonthly[idx];
+          const sorted = [...m.assetGroups].filter(c => c.costConv != null).sort((a,b) => a.costConv - b.costConv);
+          let html = `<thead><tr><th>Rank</th><th>Asset Group</th><th>Cost/Conv</th><th>Conv</th><th>Spend</th><th>CTR</th><th>Status</th></tr></thead><tbody>`;
+          sorted.forEach((c, i) => {
+            html += `<tr>
+              <td style="font-weight:700;color:var(--skc-gold)">#${i+1}</td>
+              <td style="font-weight:600;">${c.name}</td>
+              <td style="font-weight:700;color:var(--skc-good)">${fmt.d(c.costConv)}</td>
+              <td>${c.conv.toFixed ? c.conv.toFixed(2) : c.conv}</td>
+              <td>${fmt.d(c.spend)}</td>
+              <td>${c.ctr}</td>
+              <td>${statusBadge(c.status || 'Active')}</td>
+            </tr>`;
+          });
+          html += `</tbody>`;
+          document.getElementById('rankingTable').innerHTML = html;
+        }
 
-            // ── Meta MoM table ──
-            const mTable = document.getElementById('momMetaTable');
-            if (mTable) {
-                let mTableHtml = `<thead><tr><th style="font-weight:700;min-width:110px;"></th>`;
-                MONTHS.forEach((m, i) => {
-                    const isCurr = i === currentMonthIdx;
-                    mTableHtml += `<th style="${isCurr ? 'background:var(--skc-gold);color:var(--skc-navy);' : ''}">${m}</th>`;
-                });
-                mTableHtml += `</tr></thead><tbody>`;
-                const mRows = ['Campaign','LPVs','Reach','Spend ($)','Cost/LPV ($)','Status'];
-                mRows.forEach((label, rowIdx) => {
-                    mTableHtml += `<tr><td style="font-weight:600;">${label}</td>`;
-                    MONTHS.forEach((m, colIdx) => {
-                        const isCurr = colIdx === currentMonthIdx;
-                        const md = argyleMeta[colIdx];
-                        let val = '—';
-                        if (rowIdx === 0) val = md.campaign || '—';
-                        else if (rowIdx === 1) val = md.totalLPV ? md.totalLPV.toLocaleString() : '—';
-                        else if (rowIdx === 2) val = md.totalReach ? md.totalReach.toLocaleString() : '—';
-                        else if (rowIdx === 3) val = md.totalSpend ? '$' + md.totalSpend.toFixed(0) : '—';
-                        else if (rowIdx === 4) val = md.cpl ? '$' + md.cpl.toFixed(2) : '—';
-                        else if (rowIdx === 5) val = md.status || '—';
-                        mTableHtml += `<td style="${isCurr ? 'background:rgba(245,168,0,0.1);font-weight:600;' : ''}">${val}</td>`;
-                    });
-                    mTableHtml += `</tr>`;
-                });
-                mTableHtml += `</tbody>`;
-                mTable.innerHTML = mTableHtml;
+        function renderMoMTable(idx) {
+          const monthShort = m => m.replace(' 2026','').replace(' (1–29)','').replace(' (1–17)','');
+          const rows = ['Impressions','Clicks','CTR (%)','Spend ($)','Conversions','CPA ($)','Active Asset Groups'];
+          let html = `<thead><tr><th style="min-width:110px;"></th>`;
+          MONTHS.forEach((m, i) => {
+            const isCurr = i === currentMonthIdx;
+            const sep = 'border-left:3px solid var(--skc-navy);';
+            html += `<th style="${sep}${isCurr ? 'background:var(--skc-gold);color:var(--skc-navy);' : ''}">${monthShort(m)}</th>`;
+          });
+          html += `</tr></thead><tbody>`;
+          rows.forEach((label, rowIdx) => {
+            html += `<tr><td style="font-weight:600;">${label}</td>`;
+            MONTHS.forEach((m, colIdx) => {
+              const isCurr = colIdx === currentMonthIdx;
+              const sep = 'border-left:3px solid #E5EAF0;';
+              const d = argyleMonthly[colIdx];
+              let val = '—';
+              if (rowIdx === 0) val = fmt.n(d.impr);
+              else if (rowIdx === 1) val = fmt.n(d.clicks);
+              else if (rowIdx === 2) val = d.ctr.toFixed(2) + '%';
+              else if (rowIdx === 3) val = fmt.d0(d.spend);
+              else if (rowIdx === 4) val = d.conv.toFixed(2);
+              else if (rowIdx === 5) val = fmt.d(d.costConv);
+              else if (rowIdx === 6) val = d.assetGroups.filter(c => !(c.status === 'Paused' || (c.impr===0 && c.clicks===0))).length + ' active';
+              html += `<td style="${sep}${isCurr ? 'background:rgba(245,168,0,.1);font-weight:600;' : ''}">${val}</td>`;
+            });
+            html += `</tr>`;
+          });
+          html += `</tbody>`;
+          document.getElementById('momTable').innerHTML = html;
+
+          const spend = MONTHS.map((_,i) => argyleMonthly[i].spend);
+          const conv  = MONTHS.map((_,i) => argyleMonthly[i].conv);
+          if (momChart) momChart.destroy();
+          const ctx = document.getElementById('momChart');
+          momChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: MONTHS.map(monthShort),
+              datasets: [
+                { label:'Spend ($)', data:spend, backgroundColor:'rgba(245,168,0,0.7)', borderColor:'#F5A800', borderWidth:2, yAxisID:'y', type:'bar' },
+                { label:'Conversions', data:conv, borderColor:'#16A34A', borderWidth:3, fill:false, yAxisID:'y1', type:'line', tension:0.4 }
+              ]
+            },
+            options: {
+              responsive:true, maintainAspectRatio:false,
+              interaction:{mode:'index',intersect:false},
+              plugins:{legend:{display:true,labels:{color:'#1F2937',font:{size:12,weight:'600'},padding:12,usePointStyle:true}}},
+              scales:{
+                y:{type:'linear',display:true,position:'left',title:{display:true,text:'Spend ($)'}},
+                y1:{type:'linear',display:true,position:'right',title:{display:true,text:'Conversions'},grid:{drawOnChartArea:false}},
+                x:{grid:{color:'rgba(0,0,0,0.03)'}}
+              }
             }
+          });
+        }
 
-            // ── Chart ──
-            const spend = MONTHS.map((_, i) => argyleGA[i].spend);
-            const conv  = MONTHS.map((_, i) => argyleGA[i].conv);
-            const lpv   = MONTHS.map((_, i) => argyleMeta[i].totalLPV);
-            const ctx = document.getElementById('momChart');
-            if (momChart) momChart.destroy();
-            momChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: MONTHS,
-                    datasets: [
-                        { label:'Google Ads Spend ($)', data:spend, backgroundColor:'rgba(245,168,0,0.7)', borderColor:'#F5A800', borderWidth:2, yAxisID:'y', type:'bar' },
-                        { label:'Conversions (Google)', data:conv,  borderColor:'#16A34A', borderWidth:3, fill:false, yAxisID:'y1', type:'line', tension:0.4 },
-                        { label:'Meta LPVs',            data:lpv,   borderColor:'#A7C6ED', borderWidth:3, fill:false, yAxisID:'y1', type:'line', tension:0.4 }
-                    ]
-                },
-                options: {
-                    responsive:true, maintainAspectRatio:false,
-                    interaction:{ mode:'index', intersect:false },
-                    plugins:{ legend:{ display:true, labels:{ color:'#1F2937', font:{ size:12, weight:'600' }, padding:12, usePointStyle:true } } },
-                    scales:{
-                        y:{ type:'linear', display:true, position:'left', title:{ display:true, text:'Spend ($)' }, grid:{ color:'rgba(0,0,0,0.05)' } },
-                        y1:{ type:'linear', display:true, position:'right', title:{ display:true, text:'Volume' }, grid:{ drawOnChartArea:false } },
-                        x:{ grid:{ color:'rgba(0,0,0,0.03)' } }
-                    }
-                }
+        function renderAssetGroupMoM(idx) {
+          const allNames = [];
+          argyleMonthly.forEach(m => m.assetGroups.forEach(a => { if (!allNames.includes(a.name)) allNames.push(a.name); }));
+          let html = `<thead><tr><th style="min-width:160px;">Asset Group</th>`;
+          MONTHS.forEach((m, i) => {
+            const sep = 'border-left:3px solid var(--skc-navy);';
+            html += `<th style="${sep}${i===currentMonthIdx?'background:var(--skc-gold);color:var(--skc-navy);':''}">${m.replace(' 2026','').replace(' (1–29)','').replace(' (1–17)','')} $/Conv</th>`;
+          });
+          html += `</tr></thead><tbody>`;
+          allNames.forEach(name => {
+            html += `<tr><td style="font-weight:600;font-size:12px;">${name}</td>`;
+            MONTHS.forEach((_, mi) => {
+              const ag = argyleMonthly[mi].assetGroups.find(a => a.name === name);
+              const sep = 'border-left:2px solid #E5EAF0;';
+              const isCurr = mi === currentMonthIdx;
+              let val = '—';
+              if (ag) {
+                if (ag.costConv != null) val = fmt.d(ag.costConv);
+                else if (ag.status === 'Paused' || (ag.impr === 0 && ag.clicks === 0)) val = 'Paused';
+              }
+              html += `<td style="${sep}${isCurr?'background:rgba(245,168,0,.1);font-weight:600;':''}">${val}</td>`;
             });
+            html += `</tr>`;
+          });
+          html += `</tbody>`;
+          document.getElementById('campaignMomTable').innerHTML = html;
         }
 
-        function openAddCreativeModal() {
-            document.getElementById('creativeModal').classList.add('active');
-        }
+        function renderMetaSection(idx) {
+          const el = document.getElementById('ga4Section');
+          const monthShort = m => m.replace(' 2026','').replace(' (1–29)','').replace(' (1–17)','') + ' 2026';
+          const cur = argyleMetaMonthly[idx];
+          const prev = idx > 0 ? argyleMetaMonthly[idx-1] : null;
 
-        function closeModal() {
-            document.getElementById('creativeModal').classList.remove('active');
-        }
-
-        function addCreative(event) {
-            event.preventDefault();
-
-            const platform = document.getElementById('creativeFormPlatform').value;
-            const name = document.getElementById('creativeFormName').value;
-            const metric = document.getElementById('creativeFormMetric').value;
-            const imageFile = document.getElementById('creativeFormImage').files[0];
-
-            const id = 'ad_' + Date.now();
-
-            adData.argyle.push({
-                id: id,
-                platform: platform,
-                name: name,
-                metric: metric
-            });
-
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    adImageData[id] = e.target.result;
-                    renderCreatives();
-                };
-                reader.readAsDataURL(imageFile);
-            } else {
-                renderCreatives();
+          function panel(d, label, isCurrent) {
+            if (!d || d.campaign === '—') {
+              return `<div class="ga4-panel${isCurrent?' current':''}">
+                <div class="ga4-panel-title">${label}</div>
+                <p style="color:var(--skc-muted);font-size:13px;">No Meta campaign active this period.</p>
+              </div>`;
             }
+            return `<div class="ga4-panel${isCurrent?' current':''}">
+              <div class="ga4-panel-title">${label}</div>
+              <div class="ga4-kpis">
+                <div class="kpi-tile" style="padding:8px;"><div class="kpi-value" style="font-size:18px;">${d.lpv.toLocaleString()}</div><div class="kpi-label" style="font-size:9px;">Landing Page Views</div></div>
+                <div class="kpi-tile" style="padding:8px;"><div class="kpi-value blue" style="font-size:18px;">${d.reach.toLocaleString()}</div><div class="kpi-label" style="font-size:9px;">Reach</div></div>
+                <div class="kpi-tile" style="padding:8px;"><div class="kpi-value gold" style="font-size:18px;">${fmt.d(d.spend)}</div><div class="kpi-label" style="font-size:9px;">Spend</div></div>
+                <div class="kpi-tile" style="padding:8px;"><div class="kpi-value" style="font-size:18px;">${d.cpl!=null?fmt.d(d.cpl):'—'}</div><div class="kpi-label" style="font-size:9px;">Cost / LPV</div></div>
+              </div>
+              <div style="margin-top:10px;font-size:11px;color:var(--skc-muted);">Campaign: ${d.campaign} · ${d.status}</div>
+            </div>`;
+          }
 
-            // Reset form & close
-            document.getElementById('creativeFormPlatform').value = '';
-            document.getElementById('creativeFormName').value = '';
-            document.getElementById('creativeFormMetric').value = '';
-            document.getElementById('creativeFormImage').value = '';
-            closeModal();
+          el.innerHTML = `
+            <div class="ga4-grid">
+              ${panel(prev, prev ? monthShort(MONTHS[idx-1]) : 'Prior Month', false)}
+              ${panel(cur, monthShort(MONTHS[idx]) + ' ← Current', true)}
+            </div>
+            <div style="font-size:11px;color:var(--skc-muted);margin-top:4px;">&#9432; Meta Ads Manager — Argyle Events account</div>
+          `;
         }
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', init);
+        function renderHighlights(idx) {
+          const hl = argyleHighlights[idx] || [];
+          let html = `<div class="section-title" style="color:var(--skc-gold);">&#9733; Campaign Highlights — ${MONTHS[idx]}</div>`;
+          hl.forEach(h => { html += `<div class="insight-item">${h}</div>`; });
+          document.getElementById('highlightsCard').innerHTML = html;
+        }
+
+        // ─── MAIN RENDER ──────────────────────────────────────────────
+        function renderDashboard(idx) {
+          document.getElementById('monthDisplay').textContent = MONTHS[idx];
+          document.getElementById('btnPrev').disabled = idx === 0;
+          document.getElementById('btnNext').disabled = idx === MONTHS.length - 1;
+          document.getElementById('dataNote').textContent =
+            idx === 5 ? 'Data through August 17, 2026' : `Data through ${MONTHS[idx]}`;
+
+          renderYTD(idx);
+          renderKPI(idx);
+          renderAssetGroupCards(idx);
+          renderRankingTable(idx);
+          renderMoMTable(idx);
+          renderAssetGroupMoM(idx);
+          renderMetaSection(idx);
+          renderHighlights(idx);
+        }
+
+        // ─── EVENT LISTENERS ──────────────────────────────────────────
+        document.getElementById('btnPrev').addEventListener('click', () => {
+          if (currentMonthIdx > 0) { currentMonthIdx--; renderDashboard(currentMonthIdx); }
+        });
+        document.getElementById('btnNext').addEventListener('click', () => {
+          if (currentMonthIdx < MONTHS.length - 1) { currentMonthIdx++; renderDashboard(currentMonthIdx); }
+        });
+
+        // ─── INIT ────────────────────────────────────────────────────
+        document.getElementById('generatedDate').textContent = new Date().toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'});
+        renderDashboard(currentMonthIdx);
     </script>
 </body>
 </html>
