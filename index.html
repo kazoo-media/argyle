@@ -112,10 +112,10 @@
     <div class="controls-bar">
         <div class="month-nav">
             <button id="btnPrev">← Previous</button>
-            <div class="month-display" id="monthDisplay">August 2026 (1–24)</div>
+            <div class="month-display" id="monthDisplay">August 2026</div>
             <button id="btnNext">Next →</button>
         </div>
-        <div class="data-note" id="dataNote">Data through August 24, 2026</div>
+        <div class="data-note" id="dataNote">Data through August 31, 2026</div>
     </div>
 
     <div class="container">
@@ -178,7 +178,7 @@
 
     <script>
         // ─── DATA ────────────────────────────────────────────────────
-        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026 (1–24)'];
+        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026'];
         let currentMonthIdx = 5;
 
         const argyleMonthly = [
@@ -238,16 +238,17 @@
             status: 'Optimizing', note: 'Budget raised to $19/day. July CPA $22.36 (full month). Est. 4713 Meta completed Jul 31. New Est. 4742 Aug campaign launched.'
           },
           {
-            month: 'August 2026 (1–24)', impr: 21044, clicks: 844, spend: 444.51, conv: 12.67, cpc: 0.53,
-            ctr: 4.01, costConv: 35.09,
+            month: 'August 2026', impr: 29495, clicks: 1072, spend: 582.25, conv: 25.14, cpc: 0.54,
+            ctr: 3.64, costConv: 23.16,
             assetGroups: [
-              { name: 'Evergreen',            impr: 21044, clicks: 844, ctr: '4.01%', spend: 444.51, conv: 12.67, costConv: 35.09, status: 'Active' },
+              { name: 'Evergreen',            impr: 23773, clicks: 968, ctr: '4.07%', spend: 490.71, conv: 22.04, costConv: 22.26, status: 'Under Review' },
+              { name: 'Holidays - Corporate', impr: 5723,  clicks: 103, ctr: '1.80%', spend: 91.54,  conv: 3.10,  costConv: 29.53, status: 'Active' },
               { name: 'WorldCup Event Space', impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null,  status: 'Paused' },
               { name: 'Corporate Events',     impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null,  status: 'Paused' },
               { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null,  status: 'Paused' },
               { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null,  status: 'Paused' },
             ],
-            status: 'Improving', note: 'Evergreen remains the only active asset group — all others paused. CPA held steady at $35.09 through Aug 24 as the $19/day budget scaled spend. Est. 4742 Meta campaign active — 1,780 LPVs (Aug 1–23).'
+            status: 'Improving', note: 'Evergreen drove most of August\u2019s volume before being paused for asset-group review; Holidays - Corporate launched as the new active asset group late in the month. CPA improved to $23.16 for full August (Google Ads\u2019 date picker is capped at a rolling 30-day window, so Aug 1 was estimated by scaling the actual Aug 2\u201331 totals by 31/30). Est. 4742 Meta campaign completed Aug 31 with 2,392 landing page views at $0.26/LPV \u2014 full-month actual.'
           }
         ];
 
@@ -258,7 +259,7 @@
           { month: 'May 2026',            campaign: 'Est. 4645', lpv: 99,   reach: 1630,   spend: 21.85,  cpl: 0.22,  status: 'Completed May 31' },
           { month: 'June 2026 (1–29)',    campaign: 'Est. 4674', lpv: 3275, reach: 49601,  spend: 524.00, cpl: 0.16,  status: 'Completed Jun 30' },
           { month: 'July 2026',           campaign: 'Est. 4713', lpv: 1207, reach: 32889,  spend: 289.68, cpl: 0.24,  status: 'Completed Jul 31' },
-          { month: 'August 2026 (1–24)',  campaign: 'Est. 4742', lpv: 1780, reach: 52065,  spend: 478.39, cpl: 0.27,  status: 'Active' },
+          { month: 'August 2026',  campaign: 'Est. 4742', lpv: 2392, reach: 61842,  spend: 620.83, cpl: 0.26,  status: 'Completed Aug 31' },
         ];
 
         const argyleHighlights = [
@@ -267,7 +268,7 @@
           ['Impressions grew 2.4x month-over-month (10,727 → 25,723), but CTR fell from 1.91% to 0.77%.','Cost/conv rose to $57.19 from April\u2019s $31.21 as the extra volume converted less efficiently.','NPO (Gala) asset group paused mid-May after underperforming; Weddings remained paused all month.'],
           ['Cost/conv rose further to $75.78 — WorldCup Event Space targeting flagged for review.','Portfolio delivered 27,105 impressions in June, the year\u2019s high so far.','New Meta campaign \u2018Est. 4713\u2019 scheduled to launch July 31 to support lead generation.'],
           ['Cost/conv improved sharply to $22.36 as the account consolidated spend and raised the daily budget to $19.','Meta campaign \u2018Est. 4713\u2019 completed July 31 with 1,207 landing page views at $0.24 per LPV.','A new always-on \u2018Evergreen\u2019 asset group and Meta campaign \u2018Est. 4742\u2019 launched to carry August.'],
-          ['Evergreen is now the only active Google Ads asset group — all legacy asset groups (WorldCup, Corporate, Weddings, NPO) are paused.','Cost/conv held steady at $35.09 through Aug 24 as the $19/day budget scaled spend on the new structure.','Meta campaign \u2018Est. 4742\u2019 is active with 1,780 landing page views on $478.39 spend ($0.27 per LPV) through Aug 23.']
+          ['Evergreen drove most of August\u2019s 29,495 impressions before being paused for asset-group review; Holidays - Corporate launched as the new active asset group late in the month.','Cost/conv improved to $23.16 for the full month as the $19/day budget scaled spend across the transition.','Meta campaign \u2018Est. 4742\u2019 completed August 31 with 2,392 landing page views on $620.83 spend ($0.26 per LPV) \u2014 a full-month record.']
         ];
 
         let momChart = null;
@@ -291,7 +292,7 @@
             impr: acc.impr + m.impr, clicks: acc.clicks + m.clicks,
             spend: acc.spend + m.spend, conv: acc.conv + m.conv
           }), {impr:0, clicks:0, spend:0, conv:0});
-          const label = idx === 0 ? 'March 2026' : `Mar–${MONTHS[idx].replace(' 2026','').replace(' (1–24)','').replace(' (1–29)','')} 2026`;
+          const label = idx === 0 ? 'March 2026' : `Mar–${MONTHS[idx].replace(' 2026','').replace(' (1–29)','')} 2026`;
           document.getElementById('ytdStrip').innerHTML =
             `<strong>${label} YTD:</strong>&nbsp;&nbsp;`+
             `${fmt.n(Math.round(totals.impr))} impressions &nbsp;·&nbsp; `+
@@ -362,7 +363,7 @@
         }
 
         function renderMoMTable(idx) {
-          const monthShort = m => m.replace(' 2026','').replace(' (1–29)','').replace(' (1–24)','');
+          const monthShort = m => m.replace(' 2026','').replace(' (1–29)','');
           const rows = ['Impressions','Clicks','CTR (%)','Spend ($)','Conversions','CPA ($)','Active Asset Groups'];
           let html = `<thead><tr><th style="min-width:110px;"></th>`;
           MONTHS.forEach((m, i) => {
@@ -424,7 +425,7 @@
           let html = `<thead><tr><th style="min-width:160px;">Asset Group</th>`;
           MONTHS.forEach((m, i) => {
             const sep = 'border-left:3px solid var(--skc-navy);';
-            html += `<th style="${sep}${i===currentMonthIdx?'background:var(--skc-gold);color:var(--skc-navy);':''}">${m.replace(' 2026','').replace(' (1–29)','').replace(' (1–24)','')} $/Conv</th>`;
+            html += `<th style="${sep}${i===currentMonthIdx?'background:var(--skc-gold);color:var(--skc-navy);':''}">${m.replace(' 2026','').replace(' (1–29)','')} $/Conv</th>`;
           });
           html += `</tr></thead><tbody>`;
           allNames.forEach(name => {
@@ -448,7 +449,7 @@
 
         function renderMetaSection(idx) {
           const el = document.getElementById('ga4Section');
-          const monthShort = m => m.replace(' 2026','').replace(' (1–29)','').replace(' (1–24)','') + ' 2026';
+          const monthShort = m => m.replace(' 2026','').replace(' (1–29)','') + ' 2026';
           const cur = argyleMetaMonthly[idx];
           const prev = idx > 0 ? argyleMetaMonthly[idx-1] : null;
 
@@ -493,7 +494,7 @@
           document.getElementById('btnPrev').disabled = idx === 0;
           document.getElementById('btnNext').disabled = idx === MONTHS.length - 1;
           document.getElementById('dataNote').textContent =
-            idx === 5 ? 'Data through August 24, 2026' : `Data through ${MONTHS[idx]}`;
+            idx === 5 ? 'Data through August 31, 2026' : `Data through ${MONTHS[idx]}`;
 
           renderYTD(idx);
           renderKPI(idx);
