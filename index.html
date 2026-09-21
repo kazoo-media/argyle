@@ -112,10 +112,10 @@
     <div class="controls-bar">
         <div class="month-nav">
             <button id="btnPrev">← Previous</button>
-            <div class="month-display" id="monthDisplay">September 2026 (1–14)</div>
+            <div class="month-display" id="monthDisplay">September 2026 (1–20)</div>
             <button id="btnNext">Next →</button>
         </div>
-        <div class="data-note" id="dataNote">Data through September 14, 2026</div>
+        <div class="data-note" id="dataNote">Data through September 20, 2026</div>
     </div>
 
     <div class="container">
@@ -178,7 +178,7 @@
 
     <script>
         // ─── DATA ────────────────────────────────────────────────────
-        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026','September 2026 (1–14)'];
+        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026','September 2026 (1–20)'];
         let currentMonthIdx = 6;
 
         const argyleMonthly = [
@@ -251,17 +251,17 @@
             status: 'Improving', note: 'Evergreen drove most of August\u2019s volume before being paused for asset-group review; Holidays - Corporate launched as the new active asset group late in the month. CPA improved to $23.16 for full August (Google Ads\u2019 date picker is capped at a rolling 30-day window, so Aug 1 was estimated by scaling the actual Aug 2\u201331 totals by 31/30). Est. 4742 Meta campaign completed Aug 31 with 2,392 landing page views at $0.26/LPV \u2014 full-month actual.'
           },
           {
-            month: 'September 2026 (1\u201314)', impr: 17179, clicks: 234, spend: 271.97, conv: 8.36, cpc: 1.16,
-            ctr: 1.36, costConv: 32.53,
+            month: 'September 2026 (1\u201320)', impr: 28407, clicks: 333, spend: 431.06, conv: 18.80, cpc: 1.29,
+            ctr: 1.17, costConv: 22.93,
             assetGroups: [
               { name: 'Evergreen',            impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
-              { name: 'Holidays - Corporate', impr: 17179, clicks: 234, ctr: '1.36%', spend: 271.97, conv: 8.36, costConv: 32.53, status: 'Active' },
+              { name: 'Holidays - Corporate', impr: 28407, clicks: 333, ctr: '1.17%', spend: 431.06, conv: 18.80, costConv: 22.93, status: 'Active' },
               { name: 'WorldCup Event Space', impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
               { name: 'Corporate Events',     impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
               { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
               { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
             ],
-            status: 'Needs Attention', note: 'Evergreen remains fully paused \u2014 Holidays - Corporate is the only active asset group. CPA has improved to $32.53 through September 14 (down from the $72.60 read on Sep 1\u20137 as volume built through the month). Figures for Sep 1\u201314 are derived from a rolling Aug 16\u2013Sep 14 Google Ads pull, with the Aug 16\u201331 portion isolated at the asset-group level (Evergreen\u2019s last live activity) and subtracted out. Est. 4773 Meta campaign: 1,355 landing page views at $0.23/LPV through Sep 14.'
+            status: 'Improving', note: 'Evergreen remains fully paused \u2014 Holidays - Corporate is the only active asset group. CPA has improved to $22.93 through September 20 (down from $32.53 at Sep 14) as the asset group continued to mature. Figures for Sep 1\u201320 are derived from a rolling Aug 22\u2013Sep 20 Google Ads pull, with the Aug 22\u201331 portion (Evergreen\u2019s last live activity, now fully lapsed) subtracted out at the asset-group level. Est. 4773 Meta campaign: 1,854 landing page views at $0.23/LPV through Sep 20.'
           }
         ];
 
@@ -273,7 +273,7 @@
           { month: 'June 2026 (1–29)',    campaign: 'Est. 4674', lpv: 3275, reach: 49601,  spend: 524.00, cpl: 0.16,  status: 'Completed Jun 30' },
           { month: 'July 2026',           campaign: 'Est. 4713', lpv: 1207, reach: 32889,  spend: 289.68, cpl: 0.24,  status: 'Completed Jul 31' },
           { month: 'August 2026',  campaign: 'Est. 4742', lpv: 2392, reach: 61842,  spend: 620.83, cpl: 0.26,  status: 'Completed Aug 31' },
-          { month: 'September 2026 (1–14)', campaign: 'Est. 4773', lpv: 1355, reach: 27175, spend: 306.04, cpl: 0.23, status: 'Active' },
+          { month: 'September 2026 (1–20)', campaign: 'Est. 4773', lpv: 1854, reach: 35599, spend: 418.81, cpl: 0.23, status: 'Active' },
         ];
 
         const argyleHighlights = [
@@ -283,7 +283,7 @@
           ['Cost/conv rose further to $75.78 — WorldCup Event Space targeting flagged for review.','Portfolio delivered 27,105 impressions in June, the year\u2019s high so far.','New Meta campaign \u2018Est. 4713\u2019 scheduled to launch July 31 to support lead generation.'],
           ['Cost/conv improved sharply to $22.36 as the account consolidated spend and raised the daily budget to $19.','Meta campaign \u2018Est. 4713\u2019 completed July 31 with 1,207 landing page views at $0.24 per LPV.','A new always-on \u2018Evergreen\u2019 asset group and Meta campaign \u2018Est. 4742\u2019 launched to carry August.'],
           ['Evergreen drove most of August\u2019s 29,495 impressions before being paused for asset-group review; Holidays - Corporate launched as the new active asset group late in the month.','Cost/conv improved to $23.16 for the full month as the $19/day budget scaled spend across the transition.','Meta campaign \u2018Est. 4742\u2019 completed August 31 with 2,392 landing page views on $620.83 spend ($0.26 per LPV) \u2014 a full-month record.'],
-          ['Evergreen remains fully paused \u2014 Holidays - Corporate is the sole active asset group through mid-September.','Cost/conv has improved to $32.53 through September 14, down sharply from the $72.60 early-month read as Holidays - Corporate volume built.','Meta campaign \u2018Est. 4773\u2019 has reached 1,355 landing page views ($0.23/LPV) through Sep 14, roughly double the Sep 1\u20137 pace.']
+          ['Evergreen remains fully paused \u2014 Holidays - Corporate is the sole active asset group through September 20.','Cost/conv has improved further to $22.93 through September 20, down from $32.53 at Sep 14 as Holidays - Corporate volume continued to build.','Meta campaign \u2018Est. 4773\u2019 has reached 1,854 landing page views ($0.23/LPV) through Sep 20, up from 1,355 at the Sep 14 read.']
         ];
 
         let momChart = null;
@@ -509,7 +509,7 @@
           document.getElementById('btnPrev').disabled = idx === 0;
           document.getElementById('btnNext').disabled = idx === MONTHS.length - 1;
           document.getElementById('dataNote').textContent =
-            idx === 5 ? 'Data through August 31, 2026' : idx === 6 ? 'Data through September 14, 2026' : `Data through ${MONTHS[idx]}`;
+            idx === 5 ? 'Data through August 31, 2026' : idx === 6 ? 'Data through September 20, 2026' : `Data through ${MONTHS[idx]}`;
 
           renderYTD(idx);
           renderKPI(idx);
