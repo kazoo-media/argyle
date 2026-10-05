@@ -112,10 +112,10 @@
     <div class="controls-bar">
         <div class="month-nav">
             <button id="btnPrev">← Previous</button>
-            <div class="month-display" id="monthDisplay">September 2026 (1–20)</div>
+            <div class="month-display" id="monthDisplay">October 2026 (1–4)</div>
             <button id="btnNext">Next →</button>
         </div>
-        <div class="data-note" id="dataNote">Data through September 20, 2026</div>
+        <div class="data-note" id="dataNote">Data through October 4, 2026</div>
     </div>
 
     <div class="container">
@@ -178,8 +178,8 @@
 
     <script>
         // ─── DATA ────────────────────────────────────────────────────
-        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026','September 2026 (1–20)'];
-        let currentMonthIdx = 6;
+        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026','September 2026','October 2026 (1–4)'];
+        let currentMonthIdx = 7;
 
         const argyleMonthly = [
           {
@@ -251,17 +251,30 @@
             status: 'Improving', note: 'Evergreen drove most of August\u2019s volume before being paused for asset-group review; Holidays - Corporate launched as the new active asset group late in the month. CPA improved to $23.16 for full August (Google Ads\u2019 date picker is capped at a rolling 30-day window, so Aug 1 was estimated by scaling the actual Aug 2\u201331 totals by 31/30). Est. 4742 Meta campaign completed Aug 31 with 2,392 landing page views at $0.26/LPV \u2014 full-month actual.'
           },
           {
-            month: 'September 2026 (1\u201320)', impr: 28407, clicks: 333, spend: 431.06, conv: 18.80, cpc: 1.29,
-            ctr: 1.17, costConv: 22.93,
+            month: 'September 2026', impr: 36675, clicks: 402, spend: 572.88, conv: 28.07, cpc: 1.43,
+            ctr: 1.10, costConv: 20.41,
             assetGroups: [
-              { name: 'Evergreen',            impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
-              { name: 'Holidays - Corporate', impr: 28407, clicks: 333, ctr: '1.17%', spend: 431.06, conv: 18.80, costConv: 22.93, status: 'Active' },
-              { name: 'WorldCup Event Space', impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
-              { name: 'Corporate Events',     impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
-              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
-              { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '\u2014',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Evergreen',            impr: 286,   clicks: 31,  ctr: '10.84%', spend: 7.27,   conv: 2.00, costConv: 3.64, status: 'Paused' },
+              { name: 'Holidays - Corporate', impr: 36389, clicks: 371, ctr: '1.02%', spend: 565.61, conv: 26.07, costConv: 21.69, status: 'Active' },
+              { name: 'WorldCup Event Space', impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Corporate Events',     impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
             ],
-            status: 'Improving', note: 'Evergreen remains fully paused \u2014 Holidays - Corporate is the only active asset group. CPA has improved to $22.93 through September 20 (down from $32.53 at Sep 14) as the asset group continued to mature. Figures for Sep 1\u201320 are derived from a rolling Aug 22\u2013Sep 20 Google Ads pull, with the Aug 22\u201331 portion (Evergreen\u2019s last live activity, now fully lapsed) subtracted out at the asset-group level. Est. 4773 Meta campaign: 1,854 landing page views at $0.23/LPV through Sep 20.'
+            status: 'Improving', note: 'Full-month September actuals (Google Ads custom range Sep 1–30). Holidays - Corporate delivered 99% of impressions and 26.07 of 28.07 conversions at $21.69 CPA; Evergreen logged only 286 impressions before sitting fully paused. Overall CPA of $20.41 is the lowest of any month to date. Evergreen clicks reflect reported interactions. Est. 4773 Meta campaign completed Sep 30 with 2,789 landing page views at $0.23/LPV — full-month actual.'
+          },
+          {
+            month: 'October 2026 (1–4)', impr: 4065, clicks: 36, spend: 72.26, conv: 2, cpc: 2.01,
+            ctr: 0.89, costConv: 36.13,
+            assetGroups: [
+              { name: 'Evergreen',            impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Holidays - Corporate', impr: 4065,  clicks: 36,  ctr: '0.89%', spend: 72.26,  conv: 2.00, costConv: 36.13, status: 'Active' },
+              { name: 'WorldCup Event Space', impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Corporate Events',     impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+            ],
+            status: 'Mixed', note: 'Oct 1–4 only — Holidays - Corporate is the sole active asset group (all others, including Evergreen, paused). With four days of data and 2 conversions, the $36.13 CPA is volatile and recent conversions may still be updating. Est. 4793 Meta campaign launched with 446 landing page views at $0.20/LPV through Oct 4.'
           }
         ];
 
@@ -273,7 +286,8 @@
           { month: 'June 2026 (1–29)',    campaign: 'Est. 4674', lpv: 3275, reach: 49601,  spend: 524.00, cpl: 0.16,  status: 'Completed Jun 30' },
           { month: 'July 2026',           campaign: 'Est. 4713', lpv: 1207, reach: 32889,  spend: 289.68, cpl: 0.24,  status: 'Completed Jul 31' },
           { month: 'August 2026',  campaign: 'Est. 4742', lpv: 2392, reach: 61842,  spend: 620.83, cpl: 0.26,  status: 'Completed Aug 31' },
-          { month: 'September 2026 (1–20)', campaign: 'Est. 4773', lpv: 1854, reach: 35599, spend: 418.81, cpl: 0.23, status: 'Active' },
+          { month: 'September 2026', campaign: 'Est. 4773', lpv: 2789, reach: 44604, spend: 637.36, cpl: 0.23, status: 'Completed Sep 30' },
+          { month: 'October 2026 (1–4)', campaign: 'Est. 4793', lpv: 446, reach: 5961, spend: 88.32, cpl: 0.20, status: 'Active' },
         ];
 
         const argyleHighlights = [
@@ -283,7 +297,8 @@
           ['Cost/conv rose further to $75.78 — WorldCup Event Space targeting flagged for review.','Portfolio delivered 27,105 impressions in June, the year\u2019s high so far.','New Meta campaign \u2018Est. 4713\u2019 scheduled to launch July 31 to support lead generation.'],
           ['Cost/conv improved sharply to $22.36 as the account consolidated spend and raised the daily budget to $19.','Meta campaign \u2018Est. 4713\u2019 completed July 31 with 1,207 landing page views at $0.24 per LPV.','A new always-on \u2018Evergreen\u2019 asset group and Meta campaign \u2018Est. 4742\u2019 launched to carry August.'],
           ['Evergreen drove most of August\u2019s 29,495 impressions before being paused for asset-group review; Holidays - Corporate launched as the new active asset group late in the month.','Cost/conv improved to $23.16 for the full month as the $19/day budget scaled spend across the transition.','Meta campaign \u2018Est. 4742\u2019 completed August 31 with 2,392 landing page views on $620.83 spend ($0.26 per LPV) \u2014 a full-month record.'],
-          ['Evergreen remains fully paused \u2014 Holidays - Corporate is the sole active asset group through September 20.','Cost/conv has improved further to $22.93 through September 20, down from $32.53 at Sep 14 as Holidays - Corporate volume continued to build.','Meta campaign \u2018Est. 4773\u2019 has reached 1,854 landing page views ($0.23/LPV) through Sep 20, up from 1,355 at the Sep 14 read.']
+          ['September (final): Holidays - Corporate carried 99% of impressions (36,389 of 36,675) and 26.07 of 28.07 conversions at $21.69 cost/conv.','Cost/conv closed at $20.41 for the full month \u2014 the lowest of any month to date \u2014 on $572.88 spend. Evergreen stayed paused after logging only 286 impressions.','Meta campaign \u2018Est. 4773\u2019 completed September 30 with 2,789 landing page views on $637.36 spend ($0.23 per LPV).'],
+          ['October (1–4): Holidays - Corporate is the sole active asset group; Evergreen and all other groups remain paused.','Early cost/conv of $36.13 reflects just 2 conversions on $72.26 \u2014 too few days to read as a trend, and recent conversions may still be updating.','Meta campaign \u2018Est. 4793\u2019 launched with 446 landing page views at $0.20 per LPV ($88.32 spend) through October 4.']
         ];
 
         let momChart = null;
@@ -307,7 +322,7 @@
             impr: acc.impr + m.impr, clicks: acc.clicks + m.clicks,
             spend: acc.spend + m.spend, conv: acc.conv + m.conv
           }), {impr:0, clicks:0, spend:0, conv:0});
-          const label = idx === 0 ? 'March 2026' : `Mar–${MONTHS[idx].replace(' 2026','').replace(' (1–29)','')} 2026`;
+          const label = idx === 0 ? 'March 2026' : `Mar–${MONTHS[idx].replace(' 2026','').replace(/ \(1–\d+\)/,'')} 2026`;
           document.getElementById('ytdStrip').innerHTML =
             `<strong>${label} YTD:</strong>&nbsp;&nbsp;`+
             `${fmt.n(Math.round(totals.impr))} impressions &nbsp;·&nbsp; `+
@@ -378,7 +393,7 @@
         }
 
         function renderMoMTable(idx) {
-          const monthShort = m => m.replace(' 2026','').replace(' (1–29)','');
+          const monthShort = m => m.replace(' 2026','').replace(/ \(1–\d+\)/,'');
           const rows = ['Impressions','Clicks','CTR (%)','Spend ($)','Conversions','CPA ($)','Active Asset Groups'];
           let html = `<thead><tr><th style="min-width:110px;"></th>`;
           MONTHS.forEach((m, i) => {
@@ -440,7 +455,7 @@
           let html = `<thead><tr><th style="min-width:160px;">Asset Group</th>`;
           MONTHS.forEach((m, i) => {
             const sep = 'border-left:3px solid var(--skc-navy);';
-            html += `<th style="${sep}${i===currentMonthIdx?'background:var(--skc-gold);color:var(--skc-navy);':''}">${m.replace(' 2026','').replace(' (1–29)','')} $/Conv</th>`;
+            html += `<th style="${sep}${i===currentMonthIdx?'background:var(--skc-gold);color:var(--skc-navy);':''}">${m.replace(' 2026','').replace(/ \(1–\d+\)/,'')} $/Conv</th>`;
           });
           html += `</tr></thead><tbody>`;
           allNames.forEach(name => {
@@ -464,7 +479,7 @@
 
         function renderMetaSection(idx) {
           const el = document.getElementById('ga4Section');
-          const monthShort = m => m.replace(' 2026','').replace(' (1–29)','') + ' 2026';
+          const monthShort = m => m.replace(' 2026','').replace(/ \(1–\d+\)/,'') + ' 2026';
           const cur = argyleMetaMonthly[idx];
           const prev = idx > 0 ? argyleMetaMonthly[idx-1] : null;
 
@@ -509,7 +524,7 @@
           document.getElementById('btnPrev').disabled = idx === 0;
           document.getElementById('btnNext').disabled = idx === MONTHS.length - 1;
           document.getElementById('dataNote').textContent =
-            idx === 5 ? 'Data through August 31, 2026' : idx === 6 ? 'Data through September 20, 2026' : `Data through ${MONTHS[idx]}`;
+            (() => { const m = MONTHS[idx]; const pm = m.match(/^(\w+) \d{4} \(1–(\d+)\)$/); if (pm) return `Data through ${pm[1]} ${pm[2]}, 2026`; const mo = m.replace(' 2026',''); const dl = {March:31,April:30,May:31,June:30,July:31,August:31,September:30,October:31}; return `Data through ${mo} ${dl[mo]}, 2026`; })();
 
           renderYTD(idx);
           renderKPI(idx);
