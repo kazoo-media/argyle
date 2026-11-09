@@ -112,10 +112,10 @@
     <div class="controls-bar">
         <div class="month-nav">
             <button id="btnPrev">← Previous</button>
-            <div class="month-display" id="monthDisplay">October 2026</div>
+            <div class="month-display" id="monthDisplay">November 2026 (1–8)</div>
             <button id="btnNext">Next →</button>
         </div>
-        <div class="data-note" id="dataNote">Data through October 31, 2026</div>
+        <div class="data-note" id="dataNote">Data through November 8, 2026</div>
     </div>
 
     <div class="container">
@@ -178,8 +178,8 @@
 
     <script>
         // ─── DATA ────────────────────────────────────────────────────
-        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026','September 2026','October 2026'];
-        let currentMonthIdx = 7;
+        const MONTHS = ['March 2026','April 2026','May 2026','June 2026 (1–29)','July 2026','August 2026','September 2026','October 2026','November 2026 (1–8)'];
+        let currentMonthIdx = 8;
 
         const argyleMonthly = [
           {
@@ -275,6 +275,19 @@
               { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
             ],
             status: 'Improving', note: 'Full-month October actuals (Google Ads custom range Oct 1–31). Holidays - Corporate was the sole active asset group (all others, including Evergreen, paused), delivering 28.06 conversions at a $20.54 CPA — essentially level with September\'s $20.41 record low. Est. 4793 Meta campaign completed Oct 31 with 2,561 landing page views at $0.22/LPV — full-month actual. Est. 4838 (Nov) began delivering in October but is excluded from October reporting.'
+          },
+          {
+            month: 'November 2026 (1–8)', impr: 9516, clicks: 49, spend: 164.77, conv: 4.52, cpc: 3.36,
+            ctr: 0.51, costConv: 36.45,
+            assetGroups: [
+              { name: 'Evergreen',            impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Holidays - Corporate', impr: 9516,  clicks: 49,  ctr: '0.51%', spend: 164.77, conv: 4.52, costConv: 36.45, status: 'Active' },
+              { name: 'WorldCup Event Space', impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Corporate Events',     impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'Weddings',             impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+              { name: 'NPO (Gala)',           impr: 0,     clicks: 0,   ctr: '—',     spend: 0,      conv: 0,    costConv: null, status: 'Paused' },
+            ],
+            status: 'Mixed', note: 'Nov 1–8 — Holidays - Corporate remains the sole active asset group (all others paused) and is limited by its $19/day budget. Early-month CPA of $36.45 on 4.52 conversions is well above October\'s $20.54; recent conversions may still be updating. Est. 4838 Meta campaign (Nov): 519 landing page views at $0.45/LPV through Nov 8 — about double October\'s $0.22/LPV.'
           }
         ];
 
@@ -288,6 +301,7 @@
           { month: 'August 2026',  campaign: 'Est. 4742', lpv: 2392, reach: 61842,  spend: 620.83, cpl: 0.26,  status: 'Completed Aug 31' },
           { month: 'September 2026', campaign: 'Est. 4773', lpv: 2789, reach: 44604, spend: 637.36, cpl: 0.23, status: 'Completed Sep 30' },
           { month: 'October 2026', campaign: 'Est. 4793', lpv: 2561, reach: 28703, spend: 574.67, cpl: 0.22, status: 'Completed Oct 31' },
+          { month: 'November 2026 (1–8)', campaign: 'Est. 4838', lpv: 519, reach: 16732, spend: 232.62, cpl: 0.45, status: 'Active' },
         ];
 
         const argyleHighlights = [
@@ -298,7 +312,8 @@
           ['Cost/conv improved sharply to $22.36 as the account consolidated spend and raised the daily budget to $19.','Meta campaign \u2018Est. 4713\u2019 completed July 31 with 1,207 landing page views at $0.24 per LPV.','A new always-on \u2018Evergreen\u2019 asset group and Meta campaign \u2018Est. 4742\u2019 launched to carry August.'],
           ['Evergreen drove most of August\u2019s 29,495 impressions before being paused for asset-group review; Holidays - Corporate launched as the new active asset group late in the month.','Cost/conv improved to $23.16 for the full month as the $19/day budget scaled spend across the transition.','Meta campaign \u2018Est. 4742\u2019 completed August 31 with 2,392 landing page views on $620.83 spend ($0.26 per LPV) \u2014 a full-month record.'],
           ['September (final): Holidays - Corporate carried 99% of impressions (36,389 of 36,675) and 26.07 of 28.07 conversions at $21.69 cost/conv.','Cost/conv closed at $20.41 for the full month \u2014 the lowest of any month to date \u2014 on $572.88 spend. Evergreen stayed paused after logging only 286 impressions.','Meta campaign \u2018Est. 4773\u2019 completed September 30 with 2,789 landing page views on $637.36 spend ($0.23 per LPV).'],
-          ['October (final): Holidays - Corporate carried all Argyle delivery — 32,127 impressions and 28.06 conversions — with Evergreen and all other groups paused.','Cost/conv closed at $20.54 on $576.22 spend, essentially matching September\'s $20.41 record low.','Meta campaign \u2018Est. 4793\u2019 completed October 31 with 2,561 landing page views on $574.67 spend ($0.22 per LPV). Est. 4838 (Nov) is excluded from October reporting.']
+          ['October (final): Holidays - Corporate carried all Argyle delivery — 32,127 impressions and 28.06 conversions — with Evergreen and all other groups paused.','Cost/conv closed at $20.54 on $576.22 spend, essentially matching September\'s $20.41 record low.','Meta campaign \u2018Est. 4793\u2019 completed October 31 with 2,561 landing page views on $574.67 spend ($0.22 per LPV). Est. 4838 (Nov) is excluded from October reporting.'],
+          ['November (1–8): Holidays - Corporate remains the sole active asset group; the campaign is limited by its $19/day budget.','Cost/conv is $36.45 on 4.52 conversions and $164.77 spend — early in the month and well above October\'s $20.54; recent conversions may still be updating.','Meta campaign \u2018Est. 4838\u2019 (Nov) is at 519 landing page views on $232.62 spend ($0.45 per LPV, 16,732 reach) through November 8 — about double October\u2019s $0.22 per LPV.']
         ];
 
         let momChart = null;
@@ -524,7 +539,7 @@
           document.getElementById('btnPrev').disabled = idx === 0;
           document.getElementById('btnNext').disabled = idx === MONTHS.length - 1;
           document.getElementById('dataNote').textContent =
-            (() => { const m = MONTHS[idx]; const pm = m.match(/^(\w+) \d{4} \(1–(\d+)\)$/); if (pm) return `Data through ${pm[1]} ${pm[2]}, 2026`; const mo = m.replace(' 2026',''); const dl = {March:31,April:30,May:31,June:30,July:31,August:31,September:30,October:31}; return `Data through ${mo} ${dl[mo]}, 2026`; })();
+            (() => { const m = MONTHS[idx]; const pm = m.match(/^(\w+) \d{4} \(1–(\d+)\)$/); if (pm) return `Data through ${pm[1]} ${pm[2]}, 2026`; const mo = m.replace(' 2026',''); const dl = {March:31,April:30,May:31,June:30,July:31,August:31,September:30,October:31,November:30}; return `Data through ${mo} ${dl[mo]}, 2026`; })();
 
           renderYTD(idx);
           renderKPI(idx);
